@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MathDice</title>
+</head>
+<body>
+    <h1>MathDice</h1>
+    <table style="border-collapse: collapse;">
+        <button id="botonLanzar" type="button" onclick="lanzarDados()">Lanzar dados</button>
+        <thead>
+            <th>Dado 1</th>
+            <th>Dado 2</th>
+            <th>Dado 3</th>
+            <th>Dado 4</th>
+            <th>Dado 5</th>
+            <th>Dodecaedro</th>
+        </thead>
+        <tbody>
+            <td class="max-tres" id="resDado1">-</td>
+            <td class="max-tres" id="resDado2">-</td>
+            <td class="max-tres" id="resDado3">-</td>
+            <td class="max-seis" id="resDado4">-</td>
+            <td class="max-seis" id="resDado5">-</td>
+            <td class="max-doce" id="resDodecaedro">-</td>
+        </tbody>
+    </table>
+    <p>
+        <span class="max-tres">Dados con valores del 1-3</span>
+        <br/>
+        <span class="max-seis">Dados con valores del 1-6</span>
+        <br/>
+        <span class="max-doce">Dodecaedro con valores del 1-12</span>
+        <br/>
+    </p>
+
+    <div id="seccion-calculo">
+        <hr/>
+        <p>
+            Ahora selecciona un dado, un operador, y otro dado, así hasta construir la expresión que debe dar como resultado el valor sacado por el dodecaedro
+        </p>
+        <button id= "botonDado1" type="button" onclick="clickDado(this)">Dado 1</button>
+        <button id= "botonDado2" type="button" onclick="clickDado(this)">Dado 2</button>
+        <button id= "botonDado3" type="button" onclick="clickDado(this)">Dado 3</button>
+        <button id= "botonDado4" type="button" onclick="clickDado(this)">Dado 4</button>
+        <button id= "botonDado5" type="button" onclick="clickDado(this)">Dado 5</button>
+        <br/>
+        <button id= "botonSumar" type="button" onclick="clickOperador(this)">+</button>
+        <button id= "botonRestar" type="button" onclick="clickOperador(this)">-</button>
+        <br/>
+        <p id="expresion"></p>
+        <br/>
+        <button id= "botonCalcular" type="button" onclick="clickCalcular()">Calcular</button>
+        <button id= "botonReset" type="button" onclick="clickReset()">Reset</button>
+        <br/>
+        <p id="resultado"></p>
+    </div>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+        }
+        button {
+            margin: 5px;
+        }
+
+        span {
+            font-weight: bold;
+        }
+
+        div#seccion-calculo {
+            display: none;
+        }
+
+        p#resultado {
+            font-weight: bold;
+            font-size: 1.25em;
+        }
+
+        .max-tres {
+            color: blue;
+        }
+        
+        .max-seis {
+            color: green;
+        }
+
+        .max-doce {
+            color: red;
+        }
+    </style>
+    <script src="./scripts/dado.js" type="text/javascript"></script>
+    <script src="./scripts/main.js" type="text/javascript"></script>
+</body>
+</html>
