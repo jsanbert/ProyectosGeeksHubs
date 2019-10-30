@@ -3,22 +3,32 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        // Actividad 1
-        // System.out.print("> Introduce un NIF: ");
-        // String nif = sc.nextLine();
-        // System.out.println(calculoLetraNif("X1234567"));
 
-        // Actividad 2
-        // System.out.print("> Introduce una palabra: ");
-        // String palabra = sc.nextLine();
-        // System.out.println("La palabra '" + palabra + "' es palíndromo:" + esPalindromo(palabra));
+        // Ejecutar Actividad 1 (descomentar)
 
-        // Actividad 3
-         System.out.print("> Introduce una palabra con mayúsculas: ");
-         String palabra = sc.nextLine();
-         System.out.println(aMinusculas(palabra));
+//        System.out.print("> Introduce un NIF: ");
+//        String nif = sc.nextLine();
+//        System.out.println(calculoLetraNif("X1234567"));
 
-        // Actividad 4
+
+
+        // Ejecutar Actividad 2 (descomentar)
+
+//        System.out.print("> Introduce una palabra: ");
+//        String palabra = sc.nextLine();
+//        System.out.println("La palabra '" + palabra + "' es palíndromo:" + esPalindromo(palabra));
+
+
+        // Ejecutar Actividad 3 (descomentar)
+
+//         System.out.print("> Introduce una palabra con mayúsculas: ");
+//         String palabra = sc.nextLine();
+//         System.out.println(aMinusculas(palabra));
+
+
+        // Ejecutar Actividad 4 (descomentar)
+
+
 //        System.out.print("> Introduce coeficiente de x^2: ");
 //        double coeficienteXCuadrado = sc.nextDouble();
 //        sc.nextLine();
@@ -29,7 +39,8 @@ public class Main {
 //        double coeficienteIndependiente = sc.nextDouble();
 //        sc.nextLine();
 //        double[] resultado = resolverEcuacionSegundoGrado(coeficienteXCuadrado, coeficienteX, coeficienteIndependiente);
-//        System.out.println("Resultado ecuación: [" + resultado[0] + ", " + resultado[1] + "]");
+//        System.out.println("Resultado ecuación: x1 = " + resultado[0] + ", x2 = " + resultado[1]);
+
     }
 
     public static char calculoLetraNif(String nif) {
