@@ -1,7 +1,5 @@
 import modelo.*;
-import vista.VentanaPrincipal;
-
-import javax.swing.*;
+import vista.VistaPrincipal;
 
 public class Main {
 
@@ -12,6 +10,6 @@ public class Main {
         cMrJeff.setNombre("MR JEFF");
         cMrJeff.setNumeroAlumnos(-5);
 
-        VentanaPrincipal ventana = new VentanaPrincipal();
+        VistaPrincipal vista = new VistaPrincipal();
     }
 }
