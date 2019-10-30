@@ -9,60 +9,66 @@ import java.awt.event.WindowEvent;
 
 public class PanelAltaCurso extends JFrame {
     private Container panelPrincipal;
+    public static final int ANCHURA_MAX = 300, ALTURA_MAX = 200;
+    public static final int ALTURA_MAX_FILA = 20;
 
     private JPanel columnaPrincipal, filaNombreCurso, filaNumeroAlumnos, filaConfirmar;
-    private JLabel labelNombreCurso, labelNumeroAlumnos;
-    private JTextField textFieldNombreCurso, textFieldNumeroAlumnos;
-    private JButton botonConfirmar, botonCancelar;
 
     public PanelAltaCurso() {
         super();
         this.setTitle("Gestor deportivo - Panel de alta de cursos");
         this.setLayout(new BorderLayout());
-        this.setSize(300, 200);
+        this.setSize(ANCHURA_MAX, ALTURA_MAX);
 
         panelPrincipal = this.getContentPane();
         panelPrincipal.setLayout(new BorderLayout());
-        Dimension maxDimensionesFila = new Dimension((int) panelPrincipal.getMaximumSize().getWidth(), 20);
-
 
         columnaPrincipal = new JPanel();
         columnaPrincipal.setBorder(new EmptyBorder(25, 25, 25, 25));
         columnaPrincipal.setSize(30, panelPrincipal.getWidth());
         columnaPrincipal.setLayout(new BoxLayout(columnaPrincipal, BoxLayout.Y_AXIS));
 
-        filaNombreCurso = new JPanel();
-        filaNombreCurso.setMaximumSize(maxDimensionesFila);
-        filaNombreCurso.setLayout(new BoxLayout(filaNombreCurso, BoxLayout.X_AXIS));
-        labelNombreCurso = new JLabel("Nombre curso: ");
-        textFieldNombreCurso = new JTextField();
-        filaNombreCurso.add(labelNombreCurso);
-        filaNombreCurso.add(textFieldNombreCurso);
+        filaNombreCurso = this.crearFilaTextLabel("Nombre del curso: ");
 
         columnaPrincipal.add(filaNombreCurso);
 
-        filaNumeroAlumnos = new JPanel();
-        filaNumeroAlumnos.setMaximumSize(maxDimensionesFila);
-        filaNumeroAlumnos.setLayout(new BoxLayout(filaNumeroAlumnos, BoxLayout.X_AXIS));
-        labelNumeroAlumnos = new JLabel("Número alumnos: ");
-        textFieldNumeroAlumnos = new JTextField();
-        filaNumeroAlumnos.add(labelNumeroAlumnos);
-        filaNumeroAlumnos.add(textFieldNumeroAlumnos);
+        filaNumeroAlumnos = this.crearFilaTextLabel("Número de alumnos: ");
 
         columnaPrincipal.add(filaNumeroAlumnos);
 
-        filaConfirmar = new JPanel();
-        filaConfirmar.setLayout(new BoxLayout(filaConfirmar, BoxLayout.X_AXIS));
-        botonConfirmar = new JButton("Confirmar");
-        botonConfirmar.addActionListener(actionEvent -> JOptionPane.showMessageDialog(null, "Curso añadido"));
-        botonCancelar = new JButton("Cancelar");
-        botonCancelar.addActionListener(actionEvent -> this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)));
-        filaConfirmar.add(botonConfirmar);
-        filaConfirmar.add(botonCancelar);
+        filaConfirmar = crearFilaConfirmacion();
+        filaConfirmar.setBorder(new EmptyBorder(10,10,10,10));
 
         columnaPrincipal.add(filaConfirmar);
 
         panelPrincipal.add(columnaPrincipal);
         this.setVisible(true);
+    }
+
+    public JPanel crearFilaTextLabel(String labelFilaString) {
+        JPanel fila = new JPanel();
+        Dimension maxDimensionesFila = new Dimension(ANCHURA_MAX, ALTURA_MAX_FILA);
+        Dimension minDimensionLabel = new Dimension(125, ALTURA_MAX_FILA);
+        fila.setMaximumSize(maxDimensionesFila);
+        fila.setLayout(new BoxLayout(fila, BoxLayout.X_AXIS));
+        JLabel label = new JLabel (labelFilaString);
+        label.setMinimumSize(minDimensionLabel);
+        label.setPreferredSize(minDimensionLabel);
+        fila.add(label);
+        JTextField textField = new JTextField();
+        fila.add(textField);
+        return fila;
+    }
+
+    public JPanel crearFilaConfirmacion() {
+        JPanel fila = new JPanel();
+        fila.setLayout(new BoxLayout(fila, BoxLayout.X_AXIS));
+        JButton botonConfirmar = new JButton("Confirmar");
+        botonConfirmar.addActionListener(actionEvent -> JOptionPane.showMessageDialog(null, "Curso añadido"));
+        JButton botonCancelar = new JButton("Cancelar");
+        botonCancelar.addActionListener(actionEvent -> this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)));
+        fila.add(botonConfirmar);
+        fila.add(botonCancelar);
+        return fila;
     }
 }
