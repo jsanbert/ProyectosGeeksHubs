@@ -1,7 +1,7 @@
 public class Espadachin extends Carta {
 
     public Espadachin() {
-        super("Espadachín", 25, MAX_SALUD);
+        super("Espadachín", Main.generarNumeroAleatorio(15, 35), MAX_SALUD);
     }
 
     // Inflige doble de daño
@@ -11,11 +11,11 @@ public class Espadachin extends Carta {
     }
 
     public void espadazo(Carta objetivo) {
-        int aux = this.ataque;
-        this.setAtaque(this.ataque * 2);
+        int ataqueAntiguo = this.ataque;
+        this.setAtaque(this.ataque * 2 + ((int) Math.random() * 15));
         this.atacar(objetivo);
-        this.setAtaque(aux);
+        this.setAtaque(ataqueAntiguo);
 
-        System.out.print("Se inflige el doble de daño.");
+        System.out.print("Se inflige daño aumentado.");
     }
 }

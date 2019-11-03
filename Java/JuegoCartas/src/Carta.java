@@ -3,7 +3,6 @@ public abstract class Carta {
     public String tipo;
     public int ataque;
     public int salud;
-    public boolean estaVivo;
 
     public Carta(String tipo, int ataque, int salud) {
         this.tipo = tipo;
@@ -34,7 +33,7 @@ public abstract class Carta {
         else
             objetivo.setSalud(saludObjetivo - this.ataque);
 
-        System.out.print("[" + this.tipo + "] ataca a [" + objetivo.getTipo() + "] infligiendo [" + this.ataque + "] puntos de daño. ");
+        System.out.println("[" + this.tipo + "] ataca a [" + objetivo.getTipo() + "] infligiendo [" + this.ataque + "] puntos de daño. ");
     }
 
     public int getSalud() {
@@ -42,25 +41,30 @@ public abstract class Carta {
     }
 
     public void setSalud(int salud) {
+        if(salud > MAX_SALUD)
+            salud = MAX_SALUD;
         this.salud = salud;
     }
 
     public void matar() {
         this.salud = 0;
-        this.estaVivo = false;
     }
 
     public boolean estaVivo() {
-        return this.estaVivo;
-    }
-
-    public void setEstaVivo(boolean estaVivo) {
-        this.estaVivo = estaVivo;
+        return this.salud > 0;
     }
 
     public abstract void habilidadEspecial(Carta objetivo);
 
     public String toString() {
-        return "Carta tipo [ " + this.tipo + " ], puntos ataque [ " + this.ataque + " ], salud [" + this.salud + "/" + MAX_SALUD + "]";
+        String str = "Tipo: [" + this.tipo + "], puntos ataque: [" + this.ataque + "]";
+        str += (!this.estaVivo()) ? "(MUERTO)" : ", salud: [" + this.salud + "/" + MAX_SALUD + "]";
+        return str;
+    }
+
+    public String toStringFormatted() {
+        String str = "Tipo: %-10s %-6spuntos ataque: %-3d %-6spuntos salud: %-3d/%-3d";
+        str += (!this.estaVivo()) ? "%-3s(MUERTO)" : "";
+        return str;
     }
 }
