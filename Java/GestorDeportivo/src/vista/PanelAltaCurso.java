@@ -1,5 +1,8 @@
 package vista;
 
+import modelo.Curso;
+import persistencia.Conector;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -11,6 +14,8 @@ public class PanelAltaCurso extends JFrame {
     private Container panelPrincipal;
     public static final int ANCHURA_MAX = 300, ALTURA_MAX = 200;
     public static final int ALTURA_MAX_FILA = 20;
+
+    public Conector conector;
 
     private JPanel columnaPrincipal, filaNombreCurso, filaNumeroAlumnos, filaConfirmar;
 
@@ -42,7 +47,6 @@ public class PanelAltaCurso extends JFrame {
         columnaPrincipal.add(filaConfirmar);
 
         panelPrincipal.add(columnaPrincipal);
-        this.setVisible(true);
     }
 
     public JPanel crearFilaTextLabel(String labelFilaString) {
@@ -64,11 +68,26 @@ public class PanelAltaCurso extends JFrame {
         JPanel fila = new JPanel();
         fila.setLayout(new BoxLayout(fila, BoxLayout.X_AXIS));
         JButton botonConfirmar = new JButton("Confirmar");
-        botonConfirmar.addActionListener(actionEvent -> JOptionPane.showMessageDialog(null, "Curso añadido"));
+        botonConfirmar.addActionListener(actionEvent -> {
+            String nombre = ((JTextField) filaNombreCurso.getComponent(1)).getText();
+            String numAlumnos = ((JTextField) filaNumeroAlumnos.getComponent(1)).getText();
+            Curso curso = new Curso(nombre, Integer.parseInt(numAlumnos));
+
+            boolean insertado = conector.insertarCurso(curso);
+            if(insertado)
+                JOptionPane.showMessageDialog(null, "Curso añadido");
+            else
+                JOptionPane.showMessageDialog(null, "Hubo un error al añadir el curso");
+
+        });
         JButton botonCancelar = new JButton("Cancelar");
         botonCancelar.addActionListener(actionEvent -> this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)));
         fila.add(botonConfirmar);
         fila.add(botonCancelar);
         return fila;
+    }
+
+    public void setConector(Conector conector) {
+        this.conector = conector;
     }
 }

@@ -1,5 +1,7 @@
 package vista;
 
+import persistencia.Conector;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +12,7 @@ public class VistaPrincipal extends JFrame {
     private JMenu cursosMenu;
     private JPanel menuCentral;
     private JButton boton;
+    private Conector conector;
 
     public VistaPrincipal() {
         super();
@@ -26,6 +29,8 @@ public class VistaPrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 PanelAltaCurso panel = new PanelAltaCurso();
+                panel.setConector(conector);
+                panel.setVisible(true);
             }
         });
         cursosMenu.add(item);
@@ -37,6 +42,9 @@ public class VistaPrincipal extends JFrame {
         
         this.add(menuTop, BorderLayout.NORTH);
         this.add(menuCentral, BorderLayout.CENTER);
-        this.setVisible(true);
+    }
+
+    public void setConector(Conector conector) {
+        this.conector = conector;
     }
 }
