@@ -1,4 +1,4 @@
-package patron.constructor;
+package patron.builder;
 
 public abstract class ConstructorCoche {
     private Coche coche;

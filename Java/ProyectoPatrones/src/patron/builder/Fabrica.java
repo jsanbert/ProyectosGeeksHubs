@@ -1,4 +1,4 @@
-package patron.constructor;
+package patron.builder;
 
 public class Fabrica {
     private ConstructorCoche constructorCoches;

@@ -1,4 +1,4 @@
-package patron.constructor;
+package patron.builder;
 
 public class Coche {
     public int potencia;
