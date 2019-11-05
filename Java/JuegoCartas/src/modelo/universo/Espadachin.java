@@ -1,3 +1,7 @@
+package modelo.universo;
+
+import principal.Main;
+
 public class Espadachin extends Carta {
 
     public Espadachin() {

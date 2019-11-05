@@ -1,3 +1,5 @@
+package modelo.universo;
+
 public abstract class Carta {
     public static final int MAX_SALUD = 100;
     public String tipo;

@@ -1,3 +1,12 @@
+package principal;
+
+import modelo.jugadores.Usuario;
+import modelo.universo.Carta;
+import modelo.universo.Curandero;
+import modelo.universo.Espadachin;
+import modelo.universo.Mago;
+import persistencia.UsuarioDAO;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -168,9 +177,9 @@ public class Main {
                 mazoSeleccionado = null;
                 if(origen.getTipo().equals("Espadachín")) {
                     mazoSeleccionado = mazoCPU;
-                } else if (origen.getTipo().equals("Mago")) {
+                } else if (origen.getTipo().equals("modelo.universo.Mago")) {
                     mazoSeleccionado = mazoJugador;
-                } else if(origen.getTipo().equals("Curandero")) {
+                } else if(origen.getTipo().equals("modelo.universo.Curandero")) {
                     mazoSeleccionado = mazoJugador;
                 }
 
@@ -216,7 +225,7 @@ public class Main {
         for (Carta c : mazoCartas) {
             String strFormatted = c.toStringFormatted();
             //System.out.println(strFormatted)        int i = 1;;
-            System.out.printf("Carta " + (i++) + " - " + strFormatted + "\n", c.getTipo(), "", c.getAtaque(), "", c.getSalud(), Carta.MAX_SALUD);
+            System.out.printf("modelo.universo.Carta " + (i++) + " - " + strFormatted + "\n", c.getTipo(), "", c.getAtaque(), "", c.getSalud(), Carta.MAX_SALUD);
             if(c.estaVivo())
                 vivos++;
         }
