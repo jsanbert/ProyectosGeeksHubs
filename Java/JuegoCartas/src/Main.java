@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
     public enum Tipos {
@@ -47,6 +48,10 @@ public class Main {
             mazoCPU.add(getCartaAleatoria());
         }
 
+        // Ordenar cartas por puntos de ataque
+        mazoJugador.sort((c1, c2) -> c1.compararPorAtaque(c2));
+        mazoCPU.sort((c1, c2) -> c1.compararPorAtaque(c2));
+
         do {
             turnoJugador();
             //turnoCPU();
@@ -82,7 +87,7 @@ public class Main {
     public static boolean turnoJugador() {
         // No se gasta si solo se lista mazo de cartas
         boolean gastaTurno = false;
-        System.out.println("*** TURNO JUGADOR ***\n");
+        System.out.print("\n\n*** TURNO JUGADOR ***\n\n");
         int opc;
         do {
             System.out.println("Elige qué quieres hacer:\n");
@@ -100,6 +105,8 @@ public class Main {
             }
         } while(opc < 1 && opc > 4);
 
+        Carta origen, objetivo;
+        List<Carta> cartasVivas, mazoSeleccionado;
         switch (opc) {
             case 1:
                 do {
@@ -115,7 +122,6 @@ public class Main {
                     }
                 } while(opc < 1 && opc > 2);
 
-                List<Carta> mazoSeleccionado;
                 if(opc == 1) {
                     mazoSeleccionado = mazoJugador;
                 } else {
@@ -128,34 +134,51 @@ public class Main {
                 break;
             case 2:
                 gastaTurno = true;
-                Carta atacante, objetivo;
-                System.out.println("Elige la carta de tu mazo que realizará el ataque: ");
-                List<Carta> cartasVivas = getCartasVivasEnMazo(mazoJugador);
-                String[] opciones = new String[cartasVivas.size()];
-                for(int i = 0; i < opciones.length; i++) {
-                    Carta carta = cartasVivas.get(i);
-                    opciones[i] = String.format(carta.toStringFormatted(), carta.getTipo(), "", carta.getAtaque(), "", carta.getSalud(), Carta.MAX_SALUD);
-                }
+                System.out.println("Elige la carta de tu mazo que realizará el ataque:\n");
+                String[] opciones = new String[mazoJugador.size()];
+                rellenarOpcionesCartas(mazoJugador, opciones);
+                opc = elegirOpcionCarta(opciones, opciones.length);
+                origen = mazoJugador.get(opc);
 
-                opc = elegirCarta(opciones, opciones.length);
-                atacante = cartasVivas.get(opc);
+                System.out.println("Ahora elige la víctima, del mazo del adversario:\n");
 
-                System.out.println("Ahora elige la víctima, del mazo del adversario");
+                opciones = new String[mazoCPU.size()];
+                rellenarOpcionesCartas(mazoCPU, opciones);
+                opc = elegirOpcionCarta(opciones, opciones.length);
+                objetivo = mazoCPU.get(opc);
 
-                cartasVivas = getCartasVivasEnMazo(mazoCPU);
-                opciones = new String[cartasVivas.size()];
-                for(int i = 0; i < opciones.length; i++) {
-                    Carta carta = cartasVivas.get(i);
-                    opciones[i] = String.format(carta.toStringFormatted(), carta.getTipo(), "", carta.getAtaque(), "", carta.getSalud(), Carta.MAX_SALUD);
-                }
-
-                opc = elegirCarta(opciones, opciones.length);
-                objetivo = cartasVivas.get(opc);
-
-                atacante.atacar(objetivo);
+                origen.atacar(objetivo);
                 break;
             case 3:
                 gastaTurno = true;
+
+                System.out.println("Elige la carta de tu mazo que realizará la habilidad especial: ");
+                cartasVivas = getCartasEnMazo(mazoJugador, true);
+                opciones = new String[cartasVivas.size()];
+                rellenarOpcionesCartas(cartasVivas, opciones);
+
+                opc = elegirOpcionCarta(opciones, opciones.length);
+                origen = cartasVivas.get(opc);
+
+                System.out.print("Como [" + origen.getTipo() + "], tienes la habilidad especial [" + origen.getHabilidadEspecial() + "]. ");
+                System.out.println("Descripción: " + origen.getDescripcionHabilidadEspecial());
+
+                System.out.println("\nAhora elige la carta objetivo: ");
+
+                mazoSeleccionado = null;
+                if(origen.getTipo().equals("Espadachín")) {
+                    mazoSeleccionado = mazoCPU;
+                } else if (origen.getTipo().equals("Mago")) {
+                    mazoSeleccionado = mazoJugador;
+                } else if(origen.getTipo().equals("Curandero")) {
+                    mazoSeleccionado = mazoJugador;
+                }
+
+                opciones = new String[mazoSeleccionado.size()];
+                rellenarOpcionesCartas(mazoSeleccionado, opciones);
+                opc = elegirOpcionCarta(opciones, opciones.length);
+                objetivo = mazoSeleccionado.get(opc);
+                origen.habilidadEspecial(objetivo);
                 break;
             case 4:
                 if(cartasRobadasJugador < MAXIMO_ROBAR) {
@@ -176,16 +199,15 @@ public class Main {
         return gastaTurno;
     }
 
-    private static List<Carta> getCartasVivasEnMazo(List<Carta> mazo) {
-        List<Carta> cartasVivas = new ArrayList<>();
-        int i = 1;
-        for(Carta c : mazo) {
-            if(c.estaVivo()) {
-                cartasVivas.add(c);
-                i++;
-            }
+    private static void rellenarOpcionesCartas(List<Carta> cartas, String[] opciones) {
+        for(int i = 0; i < opciones.length; i++) {
+            Carta carta = cartas.get(i);
+            opciones[i] = String.format(carta.toStringFormatted(), carta.getTipo(), "", carta.getAtaque(), "", carta.getSalud(), Carta.MAX_SALUD);
         }
-        return cartasVivas;
+    }
+
+    private static List<Carta> getCartasEnMazo(List<Carta> mazo, boolean vivasOMuertas) {
+        return mazoJugador.stream().filter(c -> c.estaVivo() == vivasOMuertas).collect(Collectors.toList());
     }
 
     public static void mostrarCartas(List<Carta> mazoCartas) {
@@ -193,15 +215,15 @@ public class Main {
         int vivos = 0, i = 1;
         for (Carta c : mazoCartas) {
             String strFormatted = c.toStringFormatted();
-            //System.out.println(strFormatted);
+            //System.out.println(strFormatted)        int i = 1;;
             System.out.printf("Carta " + (i++) + " - " + strFormatted + "\n", c.getTipo(), "", c.getAtaque(), "", c.getSalud(), Carta.MAX_SALUD);
             if(c.estaVivo())
                 vivos++;
         }
         System.out.println("------------------------");
-        System.out.println("Total: " + mazoJugador.size());
+        System.out.println("Total: " + mazoCartas.size());
         System.out.println("Vivos: " + vivos);
-        System.out.println("Muertos: " + (mazoJugador.size() - vivos));
+        System.out.println("Muertos: " + (mazoCartas.size() - vivos));
         System.out.println("------------------------");
     }
 
@@ -212,7 +234,7 @@ public class Main {
 
     //public static void turnoCPU() {}
 
-    public static int elegirCarta(String[] opciones, int numOpciones) {
+    public static int elegirOpcionCarta(String[] opciones, int numOpciones) {
         int opc;
         for (int i = 0; i < numOpciones; i++) {
             System.out.println("[" + (i + 1) + "] -> " + opciones[i]);

@@ -3,6 +3,8 @@ public abstract class Carta {
     public String tipo;
     public int ataque;
     public int salud;
+    public String habilidadEspecial;
+    public String descripcionHabilidadEspecial;
 
     public Carta(String tipo, int ataque, int salud) {
         this.tipo = tipo;
@@ -33,7 +35,7 @@ public abstract class Carta {
         else
             objetivo.setSalud(saludObjetivo - this.ataque);
 
-        System.out.println("[" + this.tipo + "] ataca a [" + objetivo.getTipo() + "] infligiendo [" + this.ataque + "] puntos de daño. ");
+        System.out.print("[" + this.tipo + "] ataca a [" + objetivo.getTipo() + "] infligiendo [" + this.ataque + "] puntos de daño. ");
     }
 
     public int getSalud() {
@@ -45,6 +47,10 @@ public abstract class Carta {
             salud = MAX_SALUD;
         this.salud = salud;
     }
+
+    public String getHabilidadEspecial() { return this.habilidadEspecial; }
+
+    public String getDescripcionHabilidadEspecial() { return this.descripcionHabilidadEspecial; }
 
     public void matar() {
         this.salud = 0;
@@ -64,7 +70,11 @@ public abstract class Carta {
 
     public String toStringFormatted() {
         String str = "Tipo: %-10s %-6spuntos ataque: %-3d %-6spuntos salud: %-3d/%-3d";
-        str += (!this.estaVivo()) ? "%-3s(MUERTO)" : "";
+        str += (!this.estaVivo()) ? " (MUERTO)" : "";
         return str;
+    }
+
+    public int compararPorAtaque(Carta c) {
+        return c.ataque - this.ataque;
     }
 }

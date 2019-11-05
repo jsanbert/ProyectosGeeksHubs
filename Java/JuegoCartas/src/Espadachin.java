@@ -2,6 +2,8 @@ public class Espadachin extends Carta {
 
     public Espadachin() {
         super("Espadachín", Main.generarNumeroAleatorio(15, 35), MAX_SALUD);
+        habilidadEspecial = "Espadazo";
+        descripcionHabilidadEspecial = "Inflige un gran daño adicional, desde el doble hasta una cantidad aleatoria máxima de 15 puntos";
     }
 
     // Inflige doble de daño
@@ -16,6 +18,6 @@ public class Espadachin extends Carta {
         this.atacar(objetivo);
         this.setAtaque(ataqueAntiguo);
 
-        System.out.print("Se inflige daño aumentado.");
+        System.out.println("Se inflige daño aumentado.");
     }
 }

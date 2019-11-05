@@ -1,7 +1,8 @@
 public class Mago extends Carta {
-
     public Mago() {
-        super("Mago", Main.generarNumeroAleatorio(10, 20), MAX_SALUD);
+        super("Mago", Main.generarNumeroAleatorio(10, 20), MAX_SALUD/2);
+        habilidadEspecial = "Resucitar";
+        descripcionHabilidadEspecial = "Resucita a una carta que esté muerta, con la mitad de salud";
     }
 
     // Resucita una carta muerta
