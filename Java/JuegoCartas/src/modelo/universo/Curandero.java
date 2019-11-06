@@ -5,7 +5,7 @@ import principal.Main;
 public class Curandero extends Carta {
 
     public Curandero() {
-        super("modelo.universo.Curandero", Main.generarNumeroAleatorio(5, 10), MAX_SALUD);
+        super("Curandero", Main.generarNumeroAleatorio(5, 10), MAX_SALUD);
         habilidadEspecial = "Curar";
         descripcionHabilidadEspecial = "Cura una cantidad aleatoria entre uno y tres cuartos del máximo de salud (" + MAX_SALUD + ") a la carta que selecciones";
     }

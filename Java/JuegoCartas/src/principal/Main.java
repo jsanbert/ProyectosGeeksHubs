@@ -35,6 +35,8 @@ public class Main {
     public static int cartasRobadasJugador;
     public static int cartasRobadasCPU;
 
+    public static boolean finJuego;
+
     public static void main(String[] args) {
         sc = new Scanner(System.in).useLocale(Locale.US);
 
@@ -177,9 +179,9 @@ public class Main {
                 mazoSeleccionado = null;
                 if(origen.getTipo().equals("Espadachín")) {
                     mazoSeleccionado = mazoCPU;
-                } else if (origen.getTipo().equals("modelo.universo.Mago")) {
+                } else if (origen.getTipo().equals("Mago")) {
                     mazoSeleccionado = mazoJugador;
-                } else if(origen.getTipo().equals("modelo.universo.Curandero")) {
+                } else if(origen.getTipo().equals("Curandero")) {
                     mazoSeleccionado = mazoJugador;
                 }
 
@@ -216,7 +218,7 @@ public class Main {
     }
 
     private static List<Carta> getCartasEnMazo(List<Carta> mazo, boolean vivasOMuertas) {
-        return mazoJugador.stream().filter(c -> c.estaVivo() == vivasOMuertas).collect(Collectors.toList());
+        return mazo.stream().filter(c -> c.estaVivo() == vivasOMuertas).collect(Collectors.toList());
     }
 
     public static void mostrarCartas(List<Carta> mazoCartas) {
@@ -225,7 +227,7 @@ public class Main {
         for (Carta c : mazoCartas) {
             String strFormatted = c.toStringFormatted();
             //System.out.println(strFormatted)        int i = 1;;
-            System.out.printf("modelo.universo.Carta " + (i++) + " - " + strFormatted + "\n", c.getTipo(), "", c.getAtaque(), "", c.getSalud(), Carta.MAX_SALUD);
+            System.out.printf("Carta " + (i++) + " - " + strFormatted + "\n", c.getTipo(), "", c.getAtaque(), "", c.getSalud(), Carta.MAX_SALUD);
             if(c.estaVivo())
                 vivos++;
         }
@@ -261,6 +263,17 @@ public class Main {
     }
 
     public static boolean checkFinJuego() {
-        return false;
+        String msg = "----- FIN DEL JUEGO ------\n\nEl ganador es: ";
+        // Si todas las cartas de mi mazo O el del cpu están muertas ---> fin del juego
+
+        if (getCartasEnMazo(mazoCPU, true).size() == 0)
+            msg += "Jugador :)";
+        else if(getCartasEnMazo(mazoJugador, true).size() == 0)
+            msg += "CPU :(";
+        else
+            return false;
+
+        System.out.println(msg);
+        return true;
     }
 }
