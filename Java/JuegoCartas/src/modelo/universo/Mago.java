@@ -4,7 +4,7 @@ import principal.Main;
 
 public class Mago extends Carta {
     public Mago() {
-        super("Mago", Main.generarNumeroAleatorio(10, 20), MAX_SALUD);
+        super("Mago", Main.generarNumeroAleatorio(10, 20), Main.generarNumeroAleatorio(5,10), MAX_SALUD);
         habilidadEspecial = "Resucitar";
         descripcionHabilidadEspecial = "Resucita a una carta que esté muerta, con la mitad de salud";
     }
@@ -19,5 +19,7 @@ public class Mago extends Carta {
             System.out.print("[" + this.tipo + "] resucita a [" + objetivo.getTipo() + "]");
         } else
             System.out.print("[" + this.tipo + "] intenta resucitar a [" + objetivo.getTipo() + "]... pero ya está vivo.");
+
+        //Main.esperarEnter(Main.ENTER_CONTINUAR);
     }
 }

@@ -1,11 +1,9 @@
 package principal;
 
-import modelo.jugadores.Usuario;
 import modelo.universo.Carta;
 import modelo.universo.Curandero;
 import modelo.universo.Espadachin;
 import modelo.universo.Mago;
-import persistencia.UsuarioDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +57,11 @@ public class Main {
             mazoCPU.add(getCartaAleatoria());
         }
 
-        // Ordenar cartas por puntos de ataque
+        // Ordenar cartas:
+        // - c1.compararPorAtaque(c2)
+        // - c1.compararPorDefensa(c2)
+        // - c1.compararPorTipoAlfabeticamente(c2)
+
         mazoJugador.sort((c1, c2) -> c1.compararPorAtaque(c2));
         mazoCPU.sort((c1, c2) -> c1.compararPorAtaque(c2));
 
@@ -99,39 +101,26 @@ public class Main {
         // No se gasta si solo se lista mazo de cartas
         boolean gastaTurno = false;
         System.out.print("\n\n*** TURNO JUGADOR ***\n\n");
-        int opc;
-        do {
-            System.out.println("Elige qué quieres hacer:\n");
-            System.out.println("1. Listar mazo de cartas");
-            System.out.println("2. Atacar");
-            System.out.println("3. Usar habilidad especial");
-            System.out.println("4. Robar carta aleatoria (máximo 2 - " + cartasRobadasJugador + "/" + MAXIMO_ROBAR +")");
-            System.out.println("5. Salir del juego");
-            System.out.print("> ");
-            opc = sc.nextInt();
-            sc.nextLine();
-            if(opc < 1 || opc > 5) {
-                System.out.println("Error: Opción incorrecta");
-                esperarEnter(ENTER_VOLVER_ELEGIR);
-            }
-        } while(opc < 1 && opc > 4);
+        System.out.println("Elige qué quieres hacer:\n");
+
+        String[] opciones = new String[5];
+        opciones[0] = "Listar mazo de cartas";
+        opciones[1] = "Atacar";
+        opciones[2] = "Usar habilidad especial";
+        opciones[3] = "Robar carta aleatoria (máximo 2 - " + cartasRobadasJugador + "/" + MAXIMO_ROBAR +")";
+        opciones[4] = "Salir del juego";
+
+        int opc = elegirOpcion(opciones);
 
         Carta origen, objetivo;
         List<Carta> cartasVivas, mazoSeleccionado;
         switch (opc) {
             case 1:
-                do {
-                    System.out.println("\n¿Qué mazo quieres seleccionar para ver sus cartas y salud?\n");
-                    System.out.println("1. El tuyo");
-                    System.out.println("2. El del adversario");
-                    System.out.print("> ");
-                    opc = sc.nextInt();
-                    sc.nextLine();
-                    if(opc < 1 || opc > 2) {
-                        System.out.println("Error: Opción incorrecta");
-                        esperarEnter(ENTER_VOLVER_ELEGIR);
-                    }
-                } while(opc < 1 && opc > 2);
+                System.out.println("¿Qué mazo quieres ver?\n");
+                opciones = new String[2];
+                opciones[0] = "El tuyo";
+                opciones[1] = "El del adversario";
+                opc = elegirOpcion(opciones);
 
                 if(opc == 1) {
                     mazoSeleccionado = mazoJugador;
@@ -146,17 +135,17 @@ public class Main {
             case 2:
                 gastaTurno = true;
                 System.out.println("Elige la carta de tu mazo que realizará el ataque:\n");
-                String[] opciones = new String[mazoJugador.size()];
+                opciones = new String[mazoJugador.size()];
                 rellenarOpcionesCartas(mazoJugador, opciones);
-                opc = elegirOpcionCarta(opciones, opciones.length);
-                origen = mazoJugador.get(opc);
+                opc = elegirOpcion(opciones);
+                origen = mazoJugador.get(opc-1);
 
                 System.out.println("Ahora elige la víctima, del mazo del adversario:\n");
 
                 opciones = new String[mazoCPU.size()];
                 rellenarOpcionesCartas(mazoCPU, opciones);
-                opc = elegirOpcionCarta(opciones, opciones.length);
-                objetivo = mazoCPU.get(opc);
+                opc = elegirOpcion(opciones);
+                objetivo = mazoCPU.get(opc-1);
 
                 origen.atacar(objetivo);
                 break;
@@ -168,11 +157,13 @@ public class Main {
                 opciones = new String[cartasVivas.size()];
                 rellenarOpcionesCartas(cartasVivas, opciones);
 
-                opc = elegirOpcionCarta(opciones, opciones.length);
-                origen = cartasVivas.get(opc);
+                opc = elegirOpcion(opciones);
+                origen = cartasVivas.get(opc-1);
 
                 System.out.print("Como [" + origen.getTipo() + "], tienes la habilidad especial [" + origen.getHabilidadEspecial() + "]. ");
                 System.out.println("Descripción: " + origen.getDescripcionHabilidadEspecial());
+
+                Main.esperarEnter(ENTER_CONTINUAR);
 
                 System.out.println("\nAhora elige la carta objetivo: ");
 
@@ -187,8 +178,8 @@ public class Main {
 
                 opciones = new String[mazoSeleccionado.size()];
                 rellenarOpcionesCartas(mazoSeleccionado, opciones);
-                opc = elegirOpcionCarta(opciones, opciones.length);
-                objetivo = mazoSeleccionado.get(opc);
+                opc = elegirOpcion(opciones);
+                objetivo = mazoSeleccionado.get(opc-1);
                 origen.habilidadEspecial(objetivo);
                 break;
             case 4:
@@ -210,14 +201,18 @@ public class Main {
         return gastaTurno;
     }
 
-    private static void rellenarOpcionesCartas(List<Carta> cartas, String[] opciones) {
+    public static void rellenarOpcionesCartas(List<Carta> cartas, String[] opciones) {
         for(int i = 0; i < opciones.length; i++) {
             Carta carta = cartas.get(i);
-            opciones[i] = String.format(carta.toStringFormatted(), carta.getTipo(), "", carta.getAtaque(), "", carta.getSalud(), Carta.MAX_SALUD);
+            opciones[i] = getStringFormattedCarta(carta);
         }
     }
 
-    private static List<Carta> getCartasEnMazo(List<Carta> mazo, boolean vivasOMuertas) {
+    public static String getStringFormattedCarta(Carta carta) {
+        return String.format(carta.toStringFormatted(), carta.getTipo(), "", carta.getAtaque(), "", carta.getDefensa(), "", carta.getSalud(), Carta.MAX_SALUD);
+    }
+
+    public static List<Carta> getCartasEnMazo(List<Carta> mazo, boolean vivasOMuertas) {
         return mazo.stream().filter(c -> c.estaVivo() == vivasOMuertas).collect(Collectors.toList());
     }
 
@@ -225,9 +220,7 @@ public class Main {
         System.out.println("Mostrando cartas...\n");
         int vivos = 0, i = 1;
         for (Carta c : mazoCartas) {
-            String strFormatted = c.toStringFormatted();
-            //System.out.println(strFormatted)        int i = 1;;
-            System.out.printf("Carta " + (i++) + " - " + strFormatted + "\n", c.getTipo(), "", c.getAtaque(), "", c.getSalud(), Carta.MAX_SALUD);
+            System.out.printf("Carta " + (i++) + " - " + getStringFormattedCarta(c) + "\n");
             if(c.estaVivo())
                 vivos++;
         }
@@ -239,36 +232,37 @@ public class Main {
     }
 
     public static void esperarEnter(String mensaje) {
-        System.out.println(mensaje);
+        System.out.println("\n" + mensaje);
         sc.nextLine();
     }
 
     //public static void turnoCPU() {}
 
-    public static int elegirOpcionCarta(String[] opciones, int numOpciones) {
+    public static int elegirOpcion(String[] opciones) {
         int opc;
-        for (int i = 0; i < numOpciones; i++) {
-            System.out.println("[" + (i + 1) + "] -> " + opciones[i]);
-        }
         do {
+            for (int i = 0; i < opciones.length; i++) {
+                System.out.println("[" + (i + 1) + "] -> " + opciones[i]);
+            }
             System.out.print("> ");
             opc = sc.nextInt();
             sc.nextLine();
-            if(opc < 1 || opc > numOpciones) {
+            if(opc < 1 || opc > opciones.length) {
                 System.out.println("Error: Opción incorrecta");
                 esperarEnter(ENTER_VOLVER_ELEGIR);
             }
-        } while(opc < 1 && opc > numOpciones);
-        return opc-1;
+        } while(opc < 1 || opc > opciones.length);
+        System.out.println("");
+        return opc;
     }
 
     public static boolean checkFinJuego() {
         String msg = "----- FIN DEL JUEGO ------\n\nEl ganador es: ";
         // Si todas las cartas de mi mazo O el del cpu están muertas ---> fin del juego
 
-        if (getCartasEnMazo(mazoCPU, true).size() == 0)
+        if (getCartasEnMazo(mazoCPU, true).isEmpty())
             msg += "Jugador :)";
-        else if(getCartasEnMazo(mazoJugador, true).size() == 0)
+        else if(getCartasEnMazo(mazoJugador, true).isEmpty())
             msg += "CPU :(";
         else
             return false;

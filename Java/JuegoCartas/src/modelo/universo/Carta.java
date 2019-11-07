@@ -1,16 +1,20 @@
 package modelo.universo;
 
+import principal.Main;
+
 public abstract class Carta {
     public static final int MAX_SALUD = 100;
     public String tipo;
     public int ataque;
+    public int defensa;
     public int salud;
     public String habilidadEspecial;
     public String descripcionHabilidadEspecial;
 
-    public Carta(String tipo, int ataque, int salud) {
+    public Carta(String tipo, int ataque, int defensa, int salud) {
         this.tipo = tipo;
         this.ataque = ataque;
+        this.defensa = defensa;
         this.salud = salud;
     }
 
@@ -30,14 +34,26 @@ public abstract class Carta {
         this.ataque = ataque;
     }
 
+    public int getDefensa() {
+        return defensa;
+    }
+
+    public void setDefensa(int defensa) {
+        this.defensa = defensa;
+    }
+
     public void atacar(Carta objetivo) {
         int saludObjetivo = objetivo.getSalud();
-        if(saludObjetivo <= this.ataque)
+        int puntosDanyo = this.ataque - objetivo.getDefensa();
+        if(puntosDanyo < 0)
+            puntosDanyo = 5; // Hacer un mínimo de daño
+        if(saludObjetivo <= puntosDanyo)
             objetivo.matar();
         else
-            objetivo.setSalud(saludObjetivo - this.ataque);
+            objetivo.setSalud(saludObjetivo - puntosDanyo);
 
-        System.out.print("[" + this.tipo + "] ataca a [" + objetivo.getTipo() + "] infligiendo [" + this.ataque + "] puntos de daño. ");
+        System.out.println("[" + this.tipo + "] ataca a [" + objetivo.getTipo() + "] infligiendo [" + puntosDanyo + "] puntos de daño. ");
+        Main.esperarEnter(Main.ENTER_CONTINUAR);
     }
 
     public int getSalud() {
@@ -71,12 +87,20 @@ public abstract class Carta {
     }
 
     public String toStringFormatted() {
-        String str = "Tipo: %-10s %-6spuntos ataque: %-3d %-6spuntos salud: %-3d/%-3d";
+        String str = "Tipo: %-13s|%-3spuntos ataque: %-5d|%-3spuntos defensa: %-5d|%-3spuntos salud: %-3d/%-3d";
         str += (!this.estaVivo()) ? " (MUERTO)" : "";
         return str;
     }
 
     public int compararPorAtaque(Carta c) {
         return c.ataque - this.ataque;
+    }
+
+    public int compararPorDefensa(Carta c) {
+        return c.defensa - this.defensa;
+    }
+
+    public int compararPorTipoAlfabeticamente(Carta c) {
+        return this.tipo.compareTo(c.tipo);
     }
 }
