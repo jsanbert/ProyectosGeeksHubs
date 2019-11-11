@@ -39,3 +39,8 @@
 
 # Todo lo de .idea
 **/.idea/**
+
+
+# NodeJS
+**/node_modules
+**/package-json.lock
