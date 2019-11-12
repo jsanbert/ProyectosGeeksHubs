@@ -1,4 +1,4 @@
-package com.geekshubs.ejemplo.controller;
+package com.geekshubs.ejemplo.springbasico.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +14,6 @@ public class ParamsController {
     public String paramString(@RequestParam(defaultValue = "") String param, Model model) {
         model.addAttribute("titulo", "Param controller");
         model.addAttribute("paramText", (param.trim().isEmpty()) ? "<ninguno>" : param);
-        return "param/index";
+        return "springbasico/param/index";
     }
 }

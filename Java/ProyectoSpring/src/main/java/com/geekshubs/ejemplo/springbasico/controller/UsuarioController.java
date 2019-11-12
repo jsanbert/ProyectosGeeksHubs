@@ -1,12 +1,11 @@
-package com.geekshubs.ejemplo.controller;
+package com.geekshubs.ejemplo.springbasico.controller;
 
-import com.geekshubs.ejemplo.model.Usuario;
+import com.geekshubs.ejemplo.springbasico.model.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +13,10 @@ import java.util.List;
 @RequestMapping(value = "/usuario")
 public class UsuarioController {
 
-    @Value("${texto.titulo.listaUsuarios}")
+    @Value("${springbasico.texto.titulo.listaUsuarios}")
     private String tituloListaUsuarios;
 
-    @Value("${texto.titulo.perfil}")
+    @Value("${springbasico.texto.titulo.perfil}")
     private String tituloPerfilUsuario;
 
     public static int usuariosCount;
@@ -39,7 +38,7 @@ public class UsuarioController {
             }
         }
 
-        return "usuario/perfil";
+        return "springbasico/usuario/perfil";
     }
 
     /* @GetMapping(value = "/perfil")
@@ -56,7 +55,7 @@ public class UsuarioController {
     @GetMapping(value = "/listarUsuarios")
     public String listarUsuarios(Model model) {
         model.addAttribute("titulo", tituloListaUsuarios);
-        return "usuario/lista";
+        return "springbasico/usuario/lista";
     }
 
     @ModelAttribute("listaUsuarios")

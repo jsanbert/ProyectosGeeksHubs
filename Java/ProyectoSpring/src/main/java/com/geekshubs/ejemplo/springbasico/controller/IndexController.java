@@ -1,4 +1,4 @@
-package com.geekshubs.ejemplo.controller;
+package com.geekshubs.ejemplo.springbasico.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +12,6 @@ public class IndexController {
     @GetMapping(value = { "/index", "/home", "" })
     public String index(Model model) {
         model.addAttribute("titulo", "Página sobre Spring");
-        return "index";
+        return "springbasico/index";
     }
 }

@@ -1,4 +1,4 @@
-package com.geekshubs.ejemplo.model;
+package com.geekshubs.ejemplo.springbasico.model;
 
 public class Usuario {
     private int id;
