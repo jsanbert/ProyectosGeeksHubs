@@ -12,7 +12,7 @@
     <div th:if="${listaUsuarios.size()>0}">
         <ul th:each="usuario,iterator:${listaUsuarios}">
             <li>
-                <a th:href="@{'/usuario/perfil/' + ${usuario.id}}">
+                <a th:href="@{'/springbasico/usuarios/perfil/' + ${usuario.id}}">
                     <span style="font-weight: bold;" th:text="${usuario.nombre + ' ' + usuario.apellidos}"></span>
                 </a>
             </li>

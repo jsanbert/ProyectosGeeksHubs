@@ -9,15 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/springcdi")
-public class UsoServiceController {
+public class UsoServiceNuevoController {
+
 
     private IServicio miServicio;
 
-    public UsoServiceController(@Qualifier("MiServicio") IServicio servicio) {
+    public UsoServiceNuevoController(@Qualifier("MiServicioNuevo") IServicio servicio) {
         miServicio = servicio;
     }
 
-    @GetMapping("/usoMiServicio")
+    @GetMapping("/usoMiServicioNuevo")
     public String index(Model model) {
         model.addAttribute("msg", miServicio.operacion());
         return "springcdi/index";

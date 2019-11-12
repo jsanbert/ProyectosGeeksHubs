@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/usuario")
+@RequestMapping(value = "/springbasico/usuarios")
 public class UsuarioController {
 
     @Value("${springbasico.texto.titulo.listaUsuarios}")
@@ -38,7 +38,7 @@ public class UsuarioController {
             }
         }
 
-        return "springbasico/usuario/perfil";
+        return "springbasico/usuarios/perfil";
     }
 
     /* @GetMapping(value = "/perfil")
@@ -46,16 +46,16 @@ public class UsuarioController {
         model.addAttribute("id", id.intValue());
         if(id.intValue() != -1) {
             List<Usuario> listaUsuarios = (ArrayList<Usuario>) model.getAttribute("listaUsuarios");
-            Usuario usuario = getUserById(id, listaUsuarios);
-            model.addAttribute("usuario", usuario);
+            Usuario usuarios = getUserById(id, listaUsuarios);
+            model.addAttribute("usuarios", usuarios);
         }
-        return "usuario/perfil";
+        return "usuarios/perfil";
     } */
 
     @GetMapping(value = "/listarUsuarios")
     public String listarUsuarios(Model model) {
         model.addAttribute("titulo", tituloListaUsuarios);
-        return "springbasico/usuario/lista";
+        return "springbasico/usuarios/lista";
     }
 
     @ModelAttribute("listaUsuarios")
