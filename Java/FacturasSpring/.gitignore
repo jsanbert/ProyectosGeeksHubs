@@ -1,0 +1,37 @@
+# IntelliJ
+**/.idea_modules/**
+**/.idea/**
+**/out/**
+**/*.iml
+
+# Maven
+HELP.md
+**/target/
+!**/.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+**/.apt_generated
+**/.classpath
+**/.factorypath
+**/.project
+**/.settings
+**/.springBeans
+**/.sts4-cache
+
+
+# CMake
+cmake-build-*/
+
+# File-based project format
+**/*.iws
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+**/node_modules/**
+**/package-json.lock
