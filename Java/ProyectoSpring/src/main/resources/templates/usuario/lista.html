@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:insert="fragments/base.html::cabecera"></head>
+
+<!---------------------->
+
+<body>
+<h1 th:text="${titulo}"></h1>
+    <div th:if="${listaUsuarios.size()>0}">
+        <ul th:each="usuario,iterator:${listaUsuarios}">
+            <li>
+                <a th:href="@{'/usuario/perfil/' + ${usuario.id}}">
+                    <span style="font-weight: bold;" th:text="${usuario.nombre + ' ' + usuario.apellidos}"></span>
+                </a>
+            </li>
+        </ul>
+        </p>
+    </div>
+</body>
+</html>

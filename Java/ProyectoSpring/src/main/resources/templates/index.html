@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:insert="fragments/base.html::cabecera"></head>
+
+<!---------------------->
+
+    <body>
+        <h1 th:text="${titulo}"></h1>
+    </body>
+</html>

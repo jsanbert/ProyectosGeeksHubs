@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:insert="fragments/base.html::cabecera"></head>
+
+<!---------------------->
+
+<body>
+    <h1 th:text="${titulo}"></h1>
+    <div>
+        <ul th:if="${usuario!=null}">
+            <li>
+                ID:         <span style="font-weight: bold" th:text="${usuario.id}"></span>
+            </li>
+            <li>
+                Nombre:     <span style="font-weight: bold" th:text="${usuario.nombre}"></span>
+            </li>
+            <li>
+                Apellidos:  <span style="font-weight: bold" th:text="${usuario.apellidos}"></span>
+            </li>
+            <li>
+                Edad:       <span style="font-weight: bold" th:text="${usuario.edad}"></span>
+            </li>
+            <li>
+                Email:      <span style="font-weight: bold" th:text="${usuario.email==null} ? 'No existe correo' : ${usuario.email}"></span>
+            </li>
+        </ul>
+        <p th:if="${id==-1||usuario==null}">ID inválido o usuario inexistente</p>
+    </div>
+</body>
+</html>
