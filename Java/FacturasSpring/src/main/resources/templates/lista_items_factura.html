@@ -2,29 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     <title th:text="${titulo}"></title>
 </head>
 <body>
-    <h1 th:text="${titulo}"></h1>
+    <h2>Cabecera de factura</h2>
     <div>
-        <table>
-            <thead>
-                <th>
-                    <span style="font-weight: bold">Nombre del producto</span>
-                    <span style="font-weight: bold">Cantidad</span>
-                </th>
-            </thead>
-            <tbody>
-                <tr th:each="factura,iterator:${itemsFactura}">
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <p th:text="'Cliente: ' + ${factura.cliente.nombre + ' ' + factura.cliente.apellido}"></p>
+        <p th:text="${factura.descripcion}"></p>
+        <ul th:each="item,iterator:${factura.listaItemsFactura}">
+            <li th:text="${item.producto.nombre}"></li>
+        </ul>
     </div>
 </body>
 </html>

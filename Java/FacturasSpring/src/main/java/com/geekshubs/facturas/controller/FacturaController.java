@@ -14,10 +14,10 @@ public class FacturaController {
     @Autowired
     private Factura factura;
 
-    @GetMapping("/lista-items")
+    @GetMapping("/show")
     public String listarItemsFactura(Model model) {
         model.addAttribute("titulo", "Lista de facturas");
-        model.addAttribute("itemsFactura", factura.getListaItemsFactura());
+        model.addAttribute("factura", factura);
         return "lista_items_factura";
     }
 }

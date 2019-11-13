@@ -2,25 +2,22 @@ package com.geekshubs.facturas.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component("Factura")
+@Component
 public class Factura {
     private String descripcion;
     private Cliente cliente;
     private List<ItemFactura> listaItemsFactura;
 
     @Autowired
-    public Factura(@Qualifier("descripcionFactura") String descripcion, @Qualifier("clienteAleatorio") Cliente cliente, @Qualifier("itemsOficina") List<ItemFactura> listaItemsFactura) {
-        this.descripcion = descripcion;
+    public Factura(@Qualifier("clienteAleatorio") Cliente cliente, @Qualifier("itemsOficina") List<ItemFactura> listaItemsFactura) {
         this.cliente = cliente;
         this.listaItemsFactura = listaItemsFactura;
     }
 
-    @Bean(name="descripcionFactura")
     public String getDescripcion() {
         return descripcion;
     }
@@ -37,7 +34,6 @@ public class Factura {
         this.cliente = cliente;
     }
 
-    @Bean(name="listaItemsFactura")
     public List<ItemFactura> getListaItemsFactura() {
         return listaItemsFactura;
     }
