@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:insert="fragments/base.html::cabecera"></head>
+
+<!---------------------->
+
+<body>
+    <h1 th:text="${titulo}"></h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Apellidos
+                </th>
+                <th>
+                    E-Mail
+                </th>
+                <th>
+                    Creado
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${cliente.id}"></td>
+                <td th:text="${cliente.nombre}"></td>
+                <td th:text="${cliente.apellidos}"></td>
+                <td th:text="${cliente.email}"></td>
+                <td th:text="${cliente.creado}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

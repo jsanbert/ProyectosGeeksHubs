@@ -13,15 +13,12 @@ public class Cliente implements Serializable {
     private Long id;
 
     @Column(name = "nombre", length = 64)
-
     private String nombre;
 
     @Column(name = "apellidos", length = 128)
-
     private String apellidos;
 
     @Column(name = "email", length = 128)
-
     private String email;
 
     @Column(name = "creado")
