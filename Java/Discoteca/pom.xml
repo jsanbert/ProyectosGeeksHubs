@@ -11,7 +11,7 @@
     <groupId>com.geekshubs.proyecto</groupId>
     <artifactId>discoteca</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>discoteca</name>
+    <name>Discoteca</name>
     <description>Proyecto gestor eventos discoteca</description>
 
     <properties>
