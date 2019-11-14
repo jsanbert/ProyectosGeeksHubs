@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/user")
 public class UserController {
 
-    @GetMapping("/signup")
+    @GetMapping("/signup-event")
     public String signUpForAnEvent(@RequestParam Long eventId) {
         return "";
     }

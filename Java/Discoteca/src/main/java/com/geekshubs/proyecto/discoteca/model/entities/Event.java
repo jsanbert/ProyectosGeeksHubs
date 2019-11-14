@@ -1,6 +1,8 @@
 package com.geekshubs.proyecto.discoteca.model.entities;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -24,14 +26,15 @@ public class Event {
 
     @Column(name="date")
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm")
     private Date date;
 
     @Column(name="capacity")
-    @NotEmpty
+    @NotNull
     private Long capacity;
 
-    public Event(@NotEmpty String overview, @NotEmpty String description, @NotNull Date date, @NotEmpty Long capacity) {
+    public Event(@NotEmpty String overview, @NotEmpty String description, @NotNull Date date, @NotNull Long capacity) {
         this.overview = overview;
         this.description = description;
         this.date = date;

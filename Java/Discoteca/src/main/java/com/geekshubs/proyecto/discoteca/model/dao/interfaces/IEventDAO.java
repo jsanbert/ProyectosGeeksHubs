@@ -1,6 +1,7 @@
 package com.geekshubs.proyecto.discoteca.model.dao.interfaces;
 
 import com.geekshubs.proyecto.discoteca.model.entities.Event;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -9,7 +10,6 @@ public interface IEventDAO {
 
     void insertEvent(Event e);
 
-    // ==================================================================
 
 
 
@@ -18,8 +18,6 @@ public interface IEventDAO {
 
     Event findEventById(Long id);
     List<Event> findEventsWithName(String name);
-
-    // ==================================================================
 
 
 
@@ -30,8 +28,6 @@ public interface IEventDAO {
 
     void updateEventById(Long id);
 
-    // ==================================================================
-
 
 
 
@@ -40,7 +36,5 @@ public interface IEventDAO {
     // ============================== DELETE ==============================
 
     void deleteEventById(Long id);
-
-    // ==================================================================
 
 }
