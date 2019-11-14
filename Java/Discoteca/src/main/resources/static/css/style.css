@@ -1,0 +1,16 @@
+body {
+    margin: 25px 25px 25px 25px;
+}
+
+form {
+    margin-bottom: 30px;
+}
+
+ul {
+    margin-top: 30px;
+}
+
+.field-error {
+    border: brown;
+    border-style: solid;
+}

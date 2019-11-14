@@ -17,29 +17,29 @@ public class Event {
     private Long id;
 
     @Column(name="overview")
-    @NotEmpty
+    @NotEmpty(message = "{overview.notempty}")
     private String overview;
 
     @Column(name="description")
-    @NotEmpty
+    @NotEmpty(message = "{description.notempty}")
     private String description;
 
     @Column(name="date")
-    @NotNull
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @NotNull(message = "{date.notnull}")
     private Date date;
 
     @Column(name="capacity")
-    @NotNull
+    @NotNull(message = "{capacity.notnull}")
     private Long capacity;
 
-    public Event(@NotEmpty String overview, @NotEmpty String description, @NotNull Date date, @NotNull Long capacity) {
-        this.overview = overview;
-        this.description = description;
-        this.date = date;
-        this.capacity = capacity;
-    }
+//    public Event(@NotEmpty String overview, @NotEmpty String description, @NotNull Date date, @NotNull Long capacity) {
+//        this.overview = overview;
+//        this.description = description;
+//        this.date = date;
+//        this.capacity = capacity;
+//    }
 
     public Long getId() {
         return id;

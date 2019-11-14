@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:insert="fragments/base.html::head"></head>
+
+<!---------------------->
+
+<body>
+<h1 th:text="${title}"></h1>
+<form th:action="@{/superadmin/store-event}" method="POST" th:object="${event}">
+    <div class="form form-group">
+        <label for="input_overview">Overview: </label>
+        <input type="text" id="input_overview" th:field="*{overview}" th:class="'form-control' + ' '+ (${#fields.hasErrors('overview')} ? 'field-error')"/>
+
+        <br/>
+
+        <label for="input_description">Description: </label>
+        <input type="text" id="input_description" class="form-control" th:field="*{description}" th:class="'form-control' + ' '+ (${#fields.hasErrors('description')} ? 'field-error')"/>
+
+        <br/>
+
+        <label for="input_capacity">Maximum capacity: </label>
+        <input type="text" id="input_capacity" class="form-control" th:field="*{capacity}" th:class="'form-control' + ' '+ (${#fields.hasErrors('capacity')} ? 'field-error')"/>
+
+        <br/>
+
+        <label for="input_datetime">Date and time: </label>
+        <input placeholder="yyyy-MM-dd HH:mm" type="text" id="input_datetime" class="form-control" th:field="*{date}" th:class="'form-control' + ' '+ (${#fields.hasErrors('date')} ? 'field-error')"/>
+
+        <input type="hidden" id="input_id" th:field="*{id}"/>
+
+        <br/>
+
+        <input type="submit" value="Save" class="btn btn-primary"/>
+        <br/>
+
+        <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            <li th:each="err : ${#fields.detailedErrors('*')}" th:text="${err.message}"></li>
+        </ul>
+    </div>
+</form>
+
+<hr/>
+</body>
+</html>
