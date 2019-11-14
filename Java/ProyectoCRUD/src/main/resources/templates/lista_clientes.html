@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:insert="fragments/base.html::cabecera"></head>
+
+<!---------------------->
+
+<body>
+    <h1 th:text="${titulo}"></h1>
+    <form th:if="${!listaClientes.isEmpty()}" th:action="@{/clientes/all}">
+        <label for="input_nombre">Filtrar por nombre: </label>
+        <input type="text" id="input_nombre" name="name"/>
+        <input type="submit" value="Filtrar"/>
+    </form>
+    <hr/>
+    <ul th:if="${!listaClientes.isEmpty()}" th:each="cliente : ${listaClientes}">
+        <li>
+            <a th:text="${cliente.nombre} + ' ' + ${cliente.apellidos}" th:href="@{/clientes/details/{id}(id=${cliente.id})}"></a>
+        </li>
+    </ul>
+    <p th:if="${listaClientes.isEmpty()}">Sin resultados</p>
+
+    <hr/>
+
+    <form th:action="@{/clientes/new}" method="GET">
+        <input type="submit" value="Nuevo cliente"/>
+    </form>
+</body>
+</html>

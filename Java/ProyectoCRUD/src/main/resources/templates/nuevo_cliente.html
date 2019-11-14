@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:insert="fragments/base.html::cabecera"></head>
+
+<!---------------------->
+
+<body>
+    <h1 th:text="${titulo}"></h1>
+    <form th:action="@{/clientes/new}" method="POST" th:object="${cliente}">
+        <label for="input_nombre">Nombre: </label>
+        <input type="text" id="input_nombre" th:field="*{nombre}"/>
+
+        <br/>
+
+        <label for="input_apellidos">Apellidos: </label>
+        <input type="text" id="input_apellidos" th:field="*{apellidos}"/>
+
+        <br/>
+
+        <label for="input_email">E-mail: </label>
+        <input type="text" id="input_email" th:field="*{email}"/>
+
+        <br/>
+
+        <label for="input_fecha">Creado: </label>
+        <input placeholder="aaaa-mm-dd" type="text" id="input_fecha" th:field="*{creado}"/>
+
+        <input type="hidden" id="input_id" value="10" th:field="*{id}"/>
+
+        <br/>
+
+        <input type="submit" value="Guardar"/>
+        <br/>
+
+        <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            <li th:each="err : ${#fields.detailedErrors('*')}" th:text="${err.fieldName} + ': ' + ${err.message}"></li>
+        </ul>
+
+    </form>
+
+    <hr/>
+</body>
+</html>
