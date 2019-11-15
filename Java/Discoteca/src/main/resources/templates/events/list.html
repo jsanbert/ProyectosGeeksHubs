@@ -9,17 +9,54 @@
 
 <body>
     <h1 th:text="${title}"></h1>
-    <form th:action="@{/}">
-        <label for="input_nombre">Filtrar por nombre: </label>
-        <input type="text" id="input_nombre" name="name"/>
-        <input type="submit" value="Filtrar"/>
+    <form th:action="@{/events/list}">
+        <label for="input_overview">Filtrar por nombre: </label>
+        <input type="text" id="input_overview" name="overviewLike"/>
+        <input type="submit" id="btn_filter" value="Filter"/>
+        <button type="button" id="btn_reset" th:if="${isFiltered}">Reset</button>
     </form>
-    <hr/>
-    <ul th:if="${!listaClientes.isEmpty()}" th:each="cliente : ${listaClientes}">
-        <li>
-            <a th:text="${cliente.nombre} + ' ' + ${cliente.apellidos}" th:href="@{/clientes/id/{id}(id=${cliente.id})}"></a>
-        </li>
-    </ul>
-    <p th:if="${listaClientes.isEmpty()}">No existen clientes con el nombre especificado</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Overview of the event
+                </th>
+                <th>
+                    Capacity
+                </th>
+                <th>
+                    Date and time
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${eventList.isEmpty()}">
+                <td colspan="4">There are no upcoming events</td>
+            </tr>
+            <tr th:if="${eventList.size() > 0}" th:each="event : ${eventList}">
+                <td th:text="${event.overview}"></td>
+                <td th:text="${event.capacity}"></td>
+                <td th:text="${event.date}"></td>
+                <td>
+                    <a th:href="@{/events/details(eventId=${event.id})}">Details</a>
+                    <a th:href="@{/events/signup(eventId=${event.id})}" class="text-success">Sign up</a>
+                    <a th:href="@{/events/signdown(eventId=${event.id})}" class="text-danger">Sign down</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script th:if="${isFiltered}" type="text/javascript">
+        var filterText = document.getElementById('input_overview')
+        var filterBtn = document.getElementById('btn_filter');
+        var resetBtn = document.getElementById('btn_reset');
+        resetBtn.addEventListener("click", function() {
+            filterText.value = "";
+            filterBtn.click();
+        });
+    </script>
 </body>
 </html>

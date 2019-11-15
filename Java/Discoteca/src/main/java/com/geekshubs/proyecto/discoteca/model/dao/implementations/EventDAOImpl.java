@@ -32,11 +32,24 @@ public class EventDAOImpl implements IEventDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public Event findEventById(Long id) { return null; }
+    public Event findEventById(Long id) {
+        return em.find(Event.class, id);
+    }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Event> findEventsWithName(String name) { return null; }
+    public List<Event> findAll() {
+        return em.createQuery("SELECT e FROM Event e", Event.class)
+                .getResultList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Event> findEventsWithName(String overview) {
+        return em.createQuery("SELECT e FROM Event e WHERE LOWER(e.overview) LIKE LOWER(CONCAT('%',:overview,'%'))", Event.class)
+                .setParameter("overview", overview)
+                .getResultList();
+    }
 
 
 
@@ -45,7 +58,9 @@ public class EventDAOImpl implements IEventDAO {
 
     @Override
     @Transactional
-    public void updateEventById(Long id) { }
+    public void updateEvent(Event eventWithUpdatedFields) {
+        em.merge(eventWithUpdatedFields);
+    }
 
 
 
@@ -56,7 +71,7 @@ public class EventDAOImpl implements IEventDAO {
 
     @Override
     @Transactional
-    public void deleteEventById(Long id) { }
-
-    // ==================================================================
+    public void deleteEventById(Long id) {
+        em.remove(this.findEventById(id));
+    }
 }

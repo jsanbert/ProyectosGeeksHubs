@@ -30,7 +30,7 @@ public class SuperAdminController {
     }
 
     @GetMapping("/edit-event")
-    public String createEvent(@RequestParam Long eventId, Model model) {
+    public String editEvent(@RequestParam Long eventId, Model model) {
         model.addAttribute("event", eventDAO.findEventById(eventId));
         return "events/form_new_edit";
     }
@@ -41,13 +41,17 @@ public class SuperAdminController {
             model.addAttribute("titulo", "Create an event");
             return "events/form_new_edit";
         }
-        eventDAO.insertEvent(event);
-        return "redirect:/create-event";
+        if(event.getId() != null)
+            eventDAO.updateEvent(event);
+        else
+            eventDAO.insertEvent(event);
+        return "redirect:create-event";
     }
 
-    @PostMapping("/delete-event")
+    // CAMBIAR POR POST
+    @GetMapping("/delete-event")
     public String delete(@RequestParam Long eventId) {
         eventDAO.deleteEventById(eventId);
-        return "";
+        return "redirect:/events/list";
     }
 }

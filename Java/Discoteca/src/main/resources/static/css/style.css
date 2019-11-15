@@ -10,6 +10,10 @@ ul {
     margin-top: 30px;
 }
 
+a {
+    padding: 10px;
+}
+
 .field-error {
     border: brown;
     border-style: solid;

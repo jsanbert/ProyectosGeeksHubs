@@ -17,6 +17,7 @@ public interface IEventDAO {
     // ============================== READ ==============================
 
     Event findEventById(Long id);
+    List<Event> findAll();
     List<Event> findEventsWithName(String name);
 
 
@@ -26,7 +27,7 @@ public interface IEventDAO {
 
     // ============================== UPDATE ==============================
 
-    void updateEventById(Long id);
+    void updateEvent(Event eventWithUpdatedFields);
 
 
 

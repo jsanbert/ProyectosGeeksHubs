@@ -34,13 +34,6 @@ public class Event {
     @NotNull(message = "{capacity.notnull}")
     private Long capacity;
 
-//    public Event(@NotEmpty String overview, @NotEmpty String description, @NotNull Date date, @NotNull Long capacity) {
-//        this.overview = overview;
-//        this.description = description;
-//        this.date = date;
-//        this.capacity = capacity;
-//    }
-
     public Long getId() {
         return id;
     }
