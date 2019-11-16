@@ -11,7 +11,7 @@
     <h1 th:text="${title}"></h1>
     <form th:action="@{/events/list}">
         <label for="input_overview">Filtrar por nombre: </label>
-        <input type="text" id="input_overview" name="overviewLike"/>
+        <input type="text" id="input_overview" name="overviewLike" th:value="${overviewLike}"/>
         <input type="submit" id="btn_filter" value="Filter"/>
         <button type="button" id="btn_reset" th:if="${isFiltered}">Reset</button>
     </form>
@@ -36,8 +36,9 @@
             <tr th:if="${eventList.isEmpty()}">
                 <td colspan="4">There are no upcoming events</td>
             </tr>
-            <tr th:if="${eventList.size() > 0}" th:each="event : ${eventList}">
-                <td th:text="${event.overview}"></td>
+            <tr th:if="${eventList.size() > 0}" th:each="event, iterator : ${eventList}">
+                <!--${overviewLike.isEmpty()} ? '' : ${event.overview.replace(overviewLike, '<span class=&quot;text-danger&quot;>' + overviewLike + '</span>' )}-->
+                <td th:id="'event-' + ${iterator.index}" th:text="${event.overview}"></td>
                 <td th:text="${event.capacity}"></td>
                 <td th:text="${event.date}"></td>
                 <td>
@@ -50,13 +51,27 @@
     </table>
 
     <script th:if="${isFiltered}" type="text/javascript">
-        var filterText = document.getElementById('input_overview')
-        var filterBtn = document.getElementById('btn_filter');
-        var resetBtn = document.getElementById('btn_reset');
-        resetBtn.addEventListener("click", function() {
-            filterText.value = "";
+        var filterTextBox = $('#input_overview');
+        var filterBtn = $('#btn_filter');
+        var resetBtn = $('#btn_reset');
+        resetBtn.click(function() {
+            filterTextBox.val("");
             filterBtn.click();
         });
+
+        var events = $('*[id^="event-"');
+
+
+        // Colorear en rojo la búsqueda
+        events.each(function(index) {
+            var searchMask = filterTextBox.val();
+            var regEx = new RegExp(searchMask, "ig");
+            var replaceMask = '<span class="text-danger">' + filterTextBox.val() + '</span>';
+
+            var eventOverviewHighlight = $(this).html().replace(regEx, replaceMask);
+            $(this).html(eventOverviewHighlight);
+        });
+
     </script>
 </body>
 </html>

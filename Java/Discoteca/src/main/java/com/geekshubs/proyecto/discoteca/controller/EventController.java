@@ -29,6 +29,7 @@ public class EventController {
             isFiltered = true;
         }
 
+        model.addAttribute("overviewLike", overviewLike);
         model.addAttribute("eventList", eventList);
         model.addAttribute("isFiltered", isFiltered);
         return "events/list";
