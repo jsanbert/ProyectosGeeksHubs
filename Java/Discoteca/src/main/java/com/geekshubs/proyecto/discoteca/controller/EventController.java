@@ -28,8 +28,9 @@ public class EventController {
             eventList = eventDAO.findEventsWithName(overviewLike);
             isFiltered = true;
         }
-
+        
         model.addAttribute("title", "Upcoming events list");
+        model.addAttribute("overviewLike", overviewLike);
         model.addAttribute("eventList", eventList);
         model.addAttribute("isFiltered", isFiltered);
         return "events/list";
