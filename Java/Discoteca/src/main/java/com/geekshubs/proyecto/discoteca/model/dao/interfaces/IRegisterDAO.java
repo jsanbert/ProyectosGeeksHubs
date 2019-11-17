@@ -1,14 +1,13 @@
 package com.geekshubs.proyecto.discoteca.model.dao.interfaces;
 
-import com.geekshubs.proyecto.discoteca.model.entities.Event;
-import org.springframework.stereotype.Repository;
+import com.geekshubs.proyecto.discoteca.model.entities.Register;
 
 import java.util.List;
 
-public interface IEventDAO {
+public interface IRegisterDAO {
     // ============================= CREATE =============================
 
-    void insertEvent(Event e);
+    void insertRegister(Register e);
 
 
 
@@ -16,9 +15,9 @@ public interface IEventDAO {
 
     // ============================== READ ==============================
 
-    Event findEventById(Long id);
-    List<Event> findAll();
-    List<Event> findEventsWithName(String name);
+    Register findRegisterById(Long id);
+    List<Register> findAll();
+    List<Register> findRegistersWithName(String name);
 
 
 
@@ -27,7 +26,7 @@ public interface IEventDAO {
 
     // ============================== UPDATE ==============================
 
-    void updateEvent(Event updatedEvent);
+    void updateRegister(Register updatedRegister);
 
 
 
@@ -36,6 +35,6 @@ public interface IEventDAO {
 
     // ============================== DELETE ==============================
 
-    void deleteEventById(Long id);
+    void deleteRegisterById(Long id);
 
 }
