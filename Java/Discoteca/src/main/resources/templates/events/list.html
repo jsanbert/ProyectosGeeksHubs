@@ -12,9 +12,8 @@
     <hr/>
 
     <form th:action="@{/events/list}">
-        <label for="input_overview">Filter by name: </label>
-        <input type="text" id="input_overview" name="overviewLike"/>
-
+        <label for="input_overview">Filter by event overview: </label>
+        <input type="text" id="input_overview" name="overviewLike" th:value="${overviewLike}"/>
         <input type="submit" id="btn_filter" value="Filter"/>
         <button type="button" id="btn_reset" th:if="${isFiltered}">Reset</button>
     </form>
@@ -69,11 +68,13 @@
         events.each(function(index) {
             var searchMask = filterTextBox.val();
             var regEx = new RegExp(searchMask, "ig");
-            var replaceMask = '<span class="text-danger">' + filterTextBox.val() + '</span>';
 
-            var eventOverviewHighlight = $(this).html().replace(regEx, replaceMask);
+            var eventOverviewHighlight = $(this).html().replace(regEx, function(str) { return '<span class="text-danger">' + str + '</span>' });
             $(this).html(eventOverviewHighlight);
         });
+
+        function highlight(text) {
+        }
 
     </script>
 </body>

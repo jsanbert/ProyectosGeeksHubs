@@ -27,7 +27,7 @@ public interface IEventDAO {
 
     // ============================== UPDATE ==============================
 
-    void updateEvent(Event eventWithUpdatedFields);
+    void updateEvent(Event updatedEvent);
 
 
 

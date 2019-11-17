@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name="events")
+@Table(name="registers")
 public class Register {
 
     @Id

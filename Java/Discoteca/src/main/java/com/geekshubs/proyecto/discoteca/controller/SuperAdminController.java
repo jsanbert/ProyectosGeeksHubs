@@ -36,7 +36,7 @@ public class SuperAdminController {
     @PostMapping("/store-event")
     public String storeEvent(@Valid Event event, BindingResult result, Model model) {
         if(result.hasErrors()) {
-            model.addAttribute("titulo", "Create an event");
+            model.addAttribute("title", "Create an event");
             return "events/form_new_edit";
         }
         if(event.getId() != null)

@@ -1,5 +1,7 @@
 package com.geekshubs.proyecto.discoteca.model.dao.implementations;
 
+import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IRegisterDAO;
+import com.geekshubs.proyecto.discoteca.model.entities.Register;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +19,7 @@ public class RegisterDAOImpl implements IRegisterDAO {
 
     @Override
     @Transactional
-    public void insertEvent(Register e) {
+    public void insertRegister(Register e) {
         em.persist(e);
     }
 
@@ -29,23 +31,21 @@ public class RegisterDAOImpl implements IRegisterDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public Register findEventById(Long id) {
+    public Register findRegisterById(Long id) {
         return em.find(Register.class, id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Register> findAll() {
-        return em.createQuery("SELECT e FROM Register e", Register.class)
+        return em.createQuery("SELECT r FROM Register r", Register.class)
                 .getResultList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Register> findEventsWithName(String overview) {
-        return em.createQuery("SELECT e FROM Register e WHERE LOWER(e.overview) LIKE LOWER(CONCAT('%',:overview,'%'))", Register.class)
-                .setParameter("overview", overview)
-                .getResultList();
+    public List<Register> findRegistersWithName(String overview) {
+        return null;
     }
 
 
@@ -55,8 +55,8 @@ public class RegisterDAOImpl implements IRegisterDAO {
 
     @Override
     @Transactional
-    public void updateEvent(Register eventWithUpdatedFields) {
-        em.merge(eventWithUpdatedFields);
+    public void updateRegister(Register updatedRegister) {
+        em.merge(updatedRegister);
     }
 
 
@@ -68,7 +68,7 @@ public class RegisterDAOImpl implements IRegisterDAO {
 
     @Override
     @Transactional
-    public void deleteEventById(Long id) {
-        em.remove(this.findEventById(id));
+    public void deleteRegisterById(Long id) {
+        em.remove(this.findRegisterById(id));
     }
 }

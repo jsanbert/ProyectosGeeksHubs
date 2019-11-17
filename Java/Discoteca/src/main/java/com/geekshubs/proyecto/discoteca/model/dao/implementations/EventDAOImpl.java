@@ -58,8 +58,8 @@ public class EventDAOImpl implements IEventDAO {
 
     @Override
     @Transactional
-    public void updateEvent(Event eventWithUpdatedFields) {
-        em.merge(eventWithUpdatedFields);
+    public void updateEvent(Event updatedEvent) {
+        em.merge(updatedEvent);
     }
 
 
