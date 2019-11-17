@@ -45,12 +45,15 @@
                 <td th:text="${event.date}"></td>
                 <td>
                     <a th:href="@{/events/details(eventId=${event.id})}">Details</a>
-                    <a th:href="@{/events/signup(eventId=${event.id})}" class="text-success">Sign up</a>
-                    <a th:href="@{/events/signdown(eventId=${event.id})}" class="text-danger">Sign down</a>
+                    <a th:href="@{/user/signup-event(eventId=${event.id})}" class="text-success">Sign up</a>
                 </td>
             </tr>
         </tbody>
     </table>
+
+    <hr/>
+
+    <a th:href="@{/user/signdown-event}" class="text-danger">Sign down from an event</a>
 
     <script th:if="${isFiltered}" type="text/javascript">
         var filterTextBox = $('#input_overview');

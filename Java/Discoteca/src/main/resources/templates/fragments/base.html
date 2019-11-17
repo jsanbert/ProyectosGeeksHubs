@@ -20,5 +20,12 @@
 <footer th:fragment="footer">
     <h1>FOOTER</h1>
 </footer>
+
+<div th:fragment="backToEventList">
+    <form th:action="@{/events/list}" method="GET">
+        <input type="submit" class="btn btn-primary" value="Return to event list"/>
+    </form>
+</div>
+
 </body>
 </html>

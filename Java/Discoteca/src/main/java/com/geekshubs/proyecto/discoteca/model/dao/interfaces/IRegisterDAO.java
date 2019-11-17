@@ -7,7 +7,7 @@ import java.util.List;
 public interface IRegisterDAO {
     // ============================= CREATE =============================
 
-    void insertRegister(Register e);
+    void insertRegister(Register r);
 
 
 
@@ -16,8 +16,8 @@ public interface IRegisterDAO {
     // ============================== READ ==============================
 
     Register findRegisterById(Long id);
+    Register findRegisterByToken(String token);
     List<Register> findAll();
-    List<Register> findRegistersWithName(String name);
 
 
 
@@ -26,7 +26,6 @@ public interface IRegisterDAO {
 
     // ============================== UPDATE ==============================
 
-    void updateRegister(Register updatedRegister);
 
 
 

@@ -1,6 +1,8 @@
 package com.geekshubs.proyecto.discoteca.model.entities;
 
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -32,9 +34,12 @@ public class Register {
     @NotEmpty(message = "{phonenumber.notnull}")
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name="eventId")
-    private Event event;
+    @Column(name="event_id")
+    @NotNull
+    private Long eventId;
+
+    @Column(name="token")
+    private String token;
 
     public Long getId() {
         return id;
@@ -76,11 +81,19 @@ public class Register {
         this.phoneNumber = phoneNumber;
     }
 
-    public Event getEvent() {
-        return event;
+    public Long getEventId() {
+        return eventId;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

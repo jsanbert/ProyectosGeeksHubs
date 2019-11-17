@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:insert="fragments/base.html::head"></head>
+
+<!---------------------->
+
+<body>
+<h1 th:text="${title}"></h1>
+<hr/>
+
+<p th:text="${token}"></p>
+<hr/>
+<div th:insert="fragments/base.html::backToEventList"></div>
+
+</body>
+</html>
