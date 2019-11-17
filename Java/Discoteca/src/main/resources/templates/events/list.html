@@ -9,8 +9,10 @@
 
 <body>
     <h1 th:text="${title}"></h1>
+    <hr/>
+
     <form th:action="@{/events/list}">
-        <label for="input_overview">Filtrar por nombre: </label>
+        <label for="input_overview">Filter by name: </label>
         <input type="text" id="input_overview" name="overviewLike"/>
         <input type="submit" id="btn_filter" value="Filter"/>
         <button type="button" id="btn_reset" th:if="${isFiltered}">Reset</button>

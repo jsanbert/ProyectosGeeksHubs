@@ -20,8 +20,6 @@ public class SuperAdminController {
     @Autowired
     private IEventDAO eventDAO;
 
-    // http://localhost:8080/superadmin/create-event?overview=Festival techno&description=Va a venir un DJ to wapo a dar un festival de música techno&capacity=300&date=15-11-2019 22:00
-
     @GetMapping("/create-event")
     public String createEvent(Model model) {
         model.addAttribute(new Event());
