@@ -3,13 +3,13 @@ package com.geekshubs.ejemplo.springapirestful.model.pojo;
 import java.util.Date;
 
 public class Todo {
-    private int id;
+    private Long id;
     private String user;
     private String desc;
     private Date targetDate;
     private boolean isDone;
 
-    public Todo(int id, String user, String desc, Date targetDate, boolean isDone) {
+    public Todo(Long id, String user, String desc, Date targetDate, boolean isDone) {
         this.id = id;
         this.user = user;
         this.desc = desc;
@@ -17,11 +17,11 @@ public class Todo {
         this.isDone = isDone;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
