@@ -3,7 +3,7 @@
 
 <!-- Inserto cabecera -->
 
-<head th:insert="fragments/base.html::head"></head>
+<head th:include="fragments/base.html::head"></head>
 
 <!---------------------->
 
@@ -43,6 +43,9 @@
         </ul>
     </div>
 </form>
+
+<div th:include="fragments/base.html::backToEventList"></div>
+
 
 <hr/>
 </body>

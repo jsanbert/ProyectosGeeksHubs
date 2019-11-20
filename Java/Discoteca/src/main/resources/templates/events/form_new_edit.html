@@ -3,7 +3,7 @@
 
 <!-- Inserto cabecera -->
 
-<head th:insert="fragments/base.html::head"></head>
+<head th:include="fragments/base.html::head"></head>
 
 <!---------------------->
 
@@ -11,7 +11,7 @@
 <h1 th:text="${title}"></h1>
 <hr/>
 
-<form th:action="@{/superadmin/store-event}" method="POST" th:object="${event}">
+<form th:action="@{/events/store}" method="POST" th:object="${event}">
     <div class="form form-group">
         <label for="input_overview">Overview: </label>
         <input type="text" id="input_overview" th:field="*{overview}" th:class="'form-control' + ' '+ (${#fields.hasErrors('overview')} ? 'field-error')"/>

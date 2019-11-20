@@ -3,7 +3,7 @@
 
 <!-- Inserto cabecera -->
 
-<head th:insert="fragments/base.html::head"></head>
+<head th:include="fragments/base.html::head"></head>
 
 <!---------------------->
 
@@ -42,7 +42,7 @@
                 <!--${overviewLike.isEmpty()} ? '' : ${event.overview.replace(overviewLike, '<span class=&quot;text-danger&quot;>' + overviewLike + '</span>' )}-->
                 <td th:id="'event-' + ${iterator.index}" th:text="${event.overview}"></td>
                 <td th:text="${event.capacity}"></td>
-                <td th:text="${event.date}"></td>
+                <td th:text="${dateFormat.format(event.date)}"></td>
                 <td>
                     <a th:href="@{/events/details(eventId=${event.id})}">Details</a>
                     <a th:href="@{/user/signup-event(eventId=${event.id})}" class="text-success">Sign up</a>
