@@ -32,6 +32,9 @@
                 <th>
                     Actions
                 </th>
+                <th th:if="${session.superadminLogged != null && session.superadminLogged == true}">
+                    Superadmin actions
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -46,6 +49,9 @@
                 <td>
                     <a th:href="@{/events/details(eventId=${event.id})}">Details</a>
                     <a th:href="@{/user/signup-event(eventId=${event.id})}" class="text-success">Sign up</a>
+                </td>
+                <td th:if="${session.superadminLogged != null && session.superadminLogged == true}"
+                    th:include="fragments/base.html::superadminActions">
                 </td>
             </tr>
         </tbody>
@@ -64,7 +70,7 @@
             filterBtn.click();
         });
 
-        var events = $('*[id^="event-"');
+        var events = $('*[id^="event-"]');
 
 
         // Colorear en rojo la búsqueda

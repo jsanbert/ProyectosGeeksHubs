@@ -6,6 +6,11 @@ form {
     margin-bottom: 30px;
 }
 
+form.superadmin-actions {
+    margin-bottom: 0px;
+    display: inline-block;
+}
+
 ul {
     margin-top: 30px;
 }

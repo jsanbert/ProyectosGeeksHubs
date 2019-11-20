@@ -18,6 +18,7 @@ public interface IRegisterDAO {
     Register findRegisterById(Long id);
     Register findRegisterByToken(String token);
     List<Register> findAll();
+    List<Register> findRegistersToAnEvent(Long eventId);
 
 
 

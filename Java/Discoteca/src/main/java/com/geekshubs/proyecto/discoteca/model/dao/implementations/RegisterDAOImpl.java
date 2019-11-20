@@ -5,6 +5,7 @@ import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IRegisterDAO;
 import com.geekshubs.proyecto.discoteca.model.entities.Event;
 import com.geekshubs.proyecto.discoteca.model.entities.Register;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class RegisterDAOImpl implements IRegisterDAO {
 
     @Autowired
+    @Lazy // para resolver dependencia circular
     private IEventDAO eventDAO;
 
     @PersistenceContext
@@ -26,9 +28,14 @@ public class RegisterDAOImpl implements IRegisterDAO {
     @Override
     @Transactional
     public void insertRegister(Register r) {
+        // Cojo evento asociado al registro que me llega
         Event e = eventDAO.findEventById(r.getEventId());
+
+        // Actualizo evento restando 1 a la capacidad puesto que es registro nuevo
         e.setCapacity(e.getCapacity() - 1);
         eventDAO.insertEvent(e);
+
+        // Guardo el registro
         em.persist(r);
     }
 
@@ -63,6 +70,14 @@ public class RegisterDAOImpl implements IRegisterDAO {
                 .getResultList();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Register> findRegistersToAnEvent(Long eventId) {
+        return em.createQuery("SELECT r FROM Register r WHERE r.eventId = :eventId")
+                .setParameter("eventId", eventId)
+                .getResultList();
+    }
+
 
 
     // ============================== UPDATE ============================
@@ -78,10 +93,17 @@ public class RegisterDAOImpl implements IRegisterDAO {
     @Override
     @Transactional
     public void deleteRegisterById(Long id) {
+        // Cojo registro
         Register r = this.findRegisterById(id);
+
+        // Cojo evento asociado al registro
         Event e = eventDAO.findEventById(r.getEventId());
+
+        // Aumento capacidad en 1 puesto que se borra 1 registro
         e.setCapacity(e.getCapacity() + 1);
-        eventDAO.insertEvent(e);
-        em.remove(this.findRegisterById(id));
+
+        // Actualizo evento y borro registro
+        eventDAO.updateEvent(e);
+        em.remove(r);
     }
 }

@@ -3,11 +3,13 @@ package com.geekshubs.proyecto.discoteca.controller;
 import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IEventDAO;
 import com.geekshubs.proyecto.discoteca.model.entities.Event;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,7 +24,13 @@ public class EventController {
     public static final String ERROR_TITLE_SUPERADMIN = "You are not a superadmin";
     public static final String ERROR_MSG_SUPERADMIN = "You cannot create/edit/remove events if you're not logged in as superadmin";
 
-    public static final SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy - HH:mm");
+    public static final String TITLE_EVENT_LIST = "Upcoming events";
+    public static final String TITLE_EVENT_DETAILS = "Event details";
+    public static final String TITLE_EVENT_CREATE = "Create an event";
+    public static final String TITLE_EVENT_EDIT = "Edit an event";
+
+
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy - HH:mm'h'");
 
     private static HttpSession session;
 
@@ -41,7 +49,7 @@ public class EventController {
         }
 
         ModelAndView mav = new ModelAndView("events/list");
-        mav.addObject("title", "Upcoming events list");
+        mav.addObject("title", TITLE_EVENT_LIST);
         mav.addObject("overviewLike", overviewLike);
         mav.addObject("eventList", eventList);
         mav.addObject("isFiltered", isFiltered);
@@ -51,7 +59,7 @@ public class EventController {
     @GetMapping("/details")
     public ModelAndView listEvents(@RequestParam Long eventId, Model model) {
         ModelAndView mav = new ModelAndView("events/details");
-        mav.addObject("title", "Event details");
+        mav.addObject("title", TITLE_EVENT_DETAILS);
         mav.addObject("event", eventDAO.findEventById(eventId));
         return mav;
     }
@@ -64,7 +72,7 @@ public class EventController {
         if(checkSuperAdminLogged(req.getSession())) {
             mav = new ModelAndView("events/form_new_edit");
             mav.addObject(new Event());
-            mav.addObject("title", "Create an event");
+            mav.addObject("title", TITLE_EVENT_CREATE);
         }
         else
             mav = errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
@@ -73,12 +81,12 @@ public class EventController {
     }
 
     @GetMapping("/edit")
-    public ModelAndView editEvent(@RequestParam Long eventId, Model model, HttpServletRequest req) {
+    public ModelAndView editEvent(@RequestParam Long eventId, HttpServletRequest req) {
         ModelAndView mav;
         if(checkSuperAdminLogged(req.getSession())) {
             mav = new ModelAndView("events/form_new_edit");
             mav.addObject("event", eventDAO.findEventById(eventId));
-            mav.addObject("title", model.getAttribute("title"));
+            mav.addObject("title", TITLE_EVENT_EDIT);
         }
         else
             mav = errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
@@ -92,9 +100,12 @@ public class EventController {
         if(checkSuperAdminLogged(req.getSession())) {
             if (result.hasErrors()) {
                 mav = new ModelAndView("events/form_new_edit");
+                if(event.getId() != null)
+                    mav.addObject("title", TITLE_EVENT_EDIT);
+                else
+                    mav.addObject("title", TITLE_EVENT_CREATE);
             } else {
-                mav = new ModelAndView("redirect:create");
-                mav.addObject("title", "Create an event");
+                mav = new ModelAndView("redirect:list");
                 if (event.getId() != null)
                     eventDAO.updateEvent(event);
                 else
@@ -107,11 +118,11 @@ public class EventController {
         return mav;
     }
 
-    @PostMapping("/delete")
-    public ModelAndView deleteEvent(@RequestParam Long eventId, Model model, HttpServletRequest req) {
+    @PostMapping(value = "/delete", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ModelAndView deleteEvent(Long eventId, HttpServletRequest req) {
         if(checkSuperAdminLogged(req.getSession())) {
             eventDAO.deleteEventById(eventId);
-            return new ModelAndView("redirect:events/list");
+            return new ModelAndView("redirect:list");
         }
         else
             return errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
@@ -119,7 +130,7 @@ public class EventController {
 
     @ModelAttribute("dateFormat")
     public SimpleDateFormat dateFormatter() {
-        return df;
+        return DATE_FORMAT;
     }
 
     public boolean checkSuperAdminLogged(HttpSession session) {

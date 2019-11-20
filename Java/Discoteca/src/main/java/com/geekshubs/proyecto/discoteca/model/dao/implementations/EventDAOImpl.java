@@ -1,7 +1,11 @@
 package com.geekshubs.proyecto.discoteca.model.dao.implementations;
 
 import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IEventDAO;
+import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IRegisterDAO;
 import com.geekshubs.proyecto.discoteca.model.entities.Event;
+import com.geekshubs.proyecto.discoteca.model.entities.Register;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +16,10 @@ import java.util.List;
 
 @Repository
 public class EventDAOImpl implements IEventDAO {
+
+    @Autowired
+    @Lazy
+    private IRegisterDAO registerDAO;
 
     @PersistenceContext
     private EntityManager em;
@@ -72,6 +80,12 @@ public class EventDAOImpl implements IEventDAO {
     @Override
     @Transactional
     public void deleteEventById(Long id) {
+        // primero borro registros asociados al evento
+        registerDAO.findRegistersToAnEvent(id)
+                .stream()
+                .forEach(r -> registerDAO.deleteRegisterById(r.getId()));
+
+        // después borro el evento en sí
         em.remove(this.findEventById(id));
     }
 }

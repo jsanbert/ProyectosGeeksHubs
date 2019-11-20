@@ -25,9 +25,15 @@
             </tr>
             <tr>
                 <th>Date and time</th>
-                <td th:text="${event.date}"></td>
+                <td th:text="${dateFormat.parse(event.date)}"></td>
+            </tr>
+            <tr th:if="${session.superadminLogged != null && session.superadminLogged == true}">
+                <th>Superadmin actions</th>
+                <td th:include="fragments/base.html::superadminActions"></td>
             </tr>
         </table>
     </div>
+    <hr/>
+    <div th:include="fragments/base.html::backToEventList"></div>
 </body>
 </html>
