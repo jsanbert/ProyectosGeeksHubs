@@ -2,16 +2,17 @@ package com.geekshubs.proyecto.discoteca.controller;
 
 import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IEventDAO;
 import com.geekshubs.proyecto.discoteca.model.entities.Event;
+import com.geekshubs.proyecto.discoteca.model.entities.User;
+import com.geekshubs.proyecto.discoteca.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
@@ -67,37 +68,37 @@ public class EventController {
 
     // SOLO PARA SUPERADMIN
     @GetMapping("/create")
-    public ModelAndView createEvent(HttpServletRequest req) {
+    public ModelAndView createEvent(WebRequest req) {
         ModelAndView mav;
-        if(checkSuperAdminLogged(req.getSession())) {
+        if(checkSuperAdminLogged(req)) {
             mav = new ModelAndView("events/form_new_edit");
             mav.addObject(new Event());
             mav.addObject("title", TITLE_EVENT_CREATE);
         }
         else
-            mav = errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
+            mav = Util.errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
 
         return mav;
     }
 
     @GetMapping("/edit")
-    public ModelAndView editEvent(@RequestParam Long eventId, HttpServletRequest req) {
+    public ModelAndView editEvent(@RequestParam Long eventId, WebRequest req) {
         ModelAndView mav;
-        if(checkSuperAdminLogged(req.getSession())) {
+        if(checkSuperAdminLogged(req)) {
             mav = new ModelAndView("events/form_new_edit");
             mav.addObject("event", eventDAO.findEventById(eventId));
             mav.addObject("title", TITLE_EVENT_EDIT);
         }
         else
-            mav = errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
+            mav = Util.errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
 
         return mav;
     }
 
     @PostMapping("/store")
-    public ModelAndView storeEvent(@Valid Event event, BindingResult result, HttpServletRequest req) {
+    public ModelAndView storeEvent(@Valid Event event, BindingResult result, WebRequest req) {
         ModelAndView mav;
-        if(checkSuperAdminLogged(req.getSession())) {
+        if(checkSuperAdminLogged(req)) {
             if (result.hasErrors()) {
                 mav = new ModelAndView("events/form_new_edit");
                 if(event.getId() != null)
@@ -113,19 +114,19 @@ public class EventController {
             }
         }
         else
-            mav = errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
+            mav = Util.errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
 
         return mav;
     }
 
     @PostMapping(value = "/delete", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ModelAndView deleteEvent(Long eventId, HttpServletRequest req) {
-        if(checkSuperAdminLogged(req.getSession())) {
+    public ModelAndView deleteEvent(Long eventId, WebRequest req) {
+        if(checkSuperAdminLogged(req)) {
             eventDAO.deleteEventById(eventId);
             return new ModelAndView("redirect:list");
         }
         else
-            return errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
+            return Util.errorPage(ERROR_TITLE_SUPERADMIN, ERROR_MSG_SUPERADMIN);
     }
 
     @ModelAttribute("dateFormat")
@@ -133,15 +134,13 @@ public class EventController {
         return DATE_FORMAT;
     }
 
-    public boolean checkSuperAdminLogged(HttpSession session) {
-        Object superAdminIsLogged = session.getAttribute("superadminLogged");
-        if(superAdminIsLogged == null)
-            return false;
-        else
-            return (boolean) superAdminIsLogged;
+    public boolean checkSuperAdminLogged(WebRequest req) {
+        User user = (User) req.getAttribute("loggedUser", WebRequest.SCOPE_SESSION);
+        return user.getSuperadmin();
     }
 
-    public ModelAndView errorPage(String errorTitle, String errorMessage) {
-        return new ModelAndView("redirect:/error-display?errorTitle="+errorTitle+"&errorMessage="+errorMessage);
+    public boolean checkAdminLogged(WebRequest req) {
+        User user = (User) req.getAttribute("loggedUser", WebRequest.SCOPE_SESSION);
+        return user.getAdmin();
     }
 }

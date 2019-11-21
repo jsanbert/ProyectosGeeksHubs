@@ -11,25 +11,8 @@
 <h1 th:text="${title}"></h1>
 <hr/>
 
-<form th:action="@{/user/store-register}" method="POST" th:object="${register}">
+<form th:action="@{/user/store-event-registration}" method="POST" th:object="${register}">
     <div class="form form-group">
-        <label for="input_name">Name: </label>
-        <input type="text" id="input_name" th:field="*{name}" th:class="'form-control' + ' '+ (${#fields.hasErrors('name')} ? 'field-error')"/>
-
-        <br/>
-
-        <label for="input_surname">Surname: </label>
-        <input type="text" id="input_surname" class="form-control" th:field="*{surname}" th:class="'form-control' + ' '+ (${#fields.hasErrors('surname')} ? 'field-error')"/>
-
-        <br/>
-
-        <label for="input_age">Age: </label>
-        <input type="text" id="input_age" class="form-control" th:field="*{age}" th:class="'form-control' + ' '+ (${#fields.hasErrors('age')} ? 'field-error')"/>
-
-        <br/>
-
-        <label for="input_phonenumber">Phone number: </label>
-        <input type="text" id="input_phonenumber" class="form-control" th:field="*{phoneNumber}" th:class="'form-control' + ' '+ (${#fields.hasErrors('phoneNumber')} ? 'field-error')"/>
 
         <input type="hidden" id="input_eventid" th:field="*{eventId}"/>
 
@@ -44,7 +27,7 @@
     </div>
 </form>
 <hr/>
-<div th:include="fragments/base.html::backToEventList"></div>
+<div th:include="fragments/base.html::buttonBack"></div>
 
 </body>
 </html>

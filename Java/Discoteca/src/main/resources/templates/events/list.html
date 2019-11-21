@@ -8,7 +8,10 @@
 <!---------------------->
 
 <body>
-    <h1 th:text="${title}"></h1>
+    <div class="top-section">
+        <h1 th:text="${title}"></h1>
+        <form th:replace="fragments/base.html::user-box"></form>
+    </div>
     <hr/>
 
     <form th:action="@{/events/list}">
@@ -29,10 +32,13 @@
                 <th>
                     Date and time
                 </th>
-                <th>
+                <th th:if="${session.loggedUser != null}">
                     Actions
                 </th>
-                <th th:if="${session.superadminLogged != null && session.superadminLogged == true}">
+                <th th:if="${session.loggedUser != null} && ${session.loggedUser.admin}">
+                    Admin actions
+                </th>
+                <th th:if="${session.loggedUser != null} && ${session.loggedUser.superadmin}">
                     Superadmin actions
                 </th>
             </tr>
@@ -46,11 +52,13 @@
                 <td th:id="'event-' + ${iterator.index}" th:text="${event.overview}"></td>
                 <td th:text="${event.capacity}"></td>
                 <td th:text="${dateFormat.format(event.date)}"></td>
-                <td>
-                    <a th:href="@{/events/details(eventId=${event.id})}">Details</a>
-                    <a th:href="@{/user/signup-event(eventId=${event.id})}" class="text-success">Sign up</a>
+                <td th:if="${session.loggedUser != null}"
+                    th:include="fragments/base.html::userActions">
                 </td>
-                <td th:if="${session.superadminLogged != null && session.superadminLogged == true}"
+                <td th:if="${session.loggedUser != null} && ${session.loggedUser.admin}"
+                    th:include="fragments/base.html::adminActions">
+                </td>
+                <td th:if="${session.loggedUser != null} && ${session.loggedUser.superadmin}"
                     th:include="fragments/base.html::superadminActions">
                 </td>
             </tr>
@@ -59,7 +67,7 @@
 
     <hr/>
 
-    <a th:href="@{/user/signdown-event}" class="text-danger">Sign down from an event</a>
+    <a th:if="${session.loggedUser != null}" th:href="@{/users/signdown-event}" class="text-danger">Sign down from an event</a>
 
     <script th:if="${isFiltered}" type="text/javascript">
         var filterTextBox = $('#input_overview');
@@ -81,9 +89,6 @@
             var eventOverviewHighlight = $(this).html().replace(regEx, function(str) { return '<span class="text-danger">' + str + '</span>' });
             $(this).html(eventOverviewHighlight);
         });
-
-        function highlight(text) {
-        }
 
     </script>
 </body>

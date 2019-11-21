@@ -6,9 +6,26 @@ form {
     margin-bottom: 30px;
 }
 
-form.superadmin-actions {
+form.event-actions {
     margin-bottom: 0px;
     display: inline-block;
+}
+
+form.user-box {
+    float: right;
+}
+
+div.user-box {
+    display: inline-block;
+}
+
+p.logged-as {
+    display: inline-block;
+}
+
+div.top-section {
+    display: flex;
+    justify-content: space-between;
 }
 
 ul {

@@ -59,6 +59,10 @@ public class EventDAOImpl implements IEventDAO {
                 .getResultList();
     }
 
+    public Long getCapacityByEventId(Long id) {
+        return this.findEventById(id).getCapacity();
+    }
+
 
 
 

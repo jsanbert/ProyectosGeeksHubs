@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:include="fragments/base.html::head"></head>
+
+<!---------------------->
+
+<body>
+<h1 th:text="${title}"></h1>
+<hr/>
+
+<form th:action="@{/users/store-user-registration}" method="POST" th:object="${user}">
+    <div class="form form-group">
+        <label for="input_username">Username: </label>
+        <input type="text" id="input_username" th:field="*{username}" th:class="'form-control' + ' '+ (${#fields.hasErrors('username')} ? 'field-error')"/>
+
+        <br/>
+
+        <label for="input_password">Password: </label>
+        <input type="password" id="input_password" th:field="*{password}" th:class="'form-control' + ' '+ (${#fields.hasErrors('password')} ? 'field-error')"/>
+
+        <br/>
+
+        <label for="input_name">Name: </label>
+        <input type="text" id="input_name" th:field="*{name}" th:class="'form-control' + ' '+ (${#fields.hasErrors('name')} ? 'field-error')"/>
+
+        <br/>
+
+        <label for="input_surname">Surname: </label>
+        <input type="text" id="input_surname" class="form-control" th:field="*{surname}" th:class="'form-control' + ' '+ (${#fields.hasErrors('surname')} ? 'field-error')"/>
+
+        <br/>
+
+        <label for="input_age">Age: </label>
+        <input type="text" id="input_age" class="form-control" th:field="*{age}" th:class="'form-control' + ' '+ (${#fields.hasErrors('age')} ? 'field-error')"/>
+
+        <br/>
+
+        <label for="input_phonenumber">Phone number: </label>
+        <input type="text" id="input_phonenumber" class="form-control" th:field="*{phoneNumber}" th:class="'form-control' + ' '+ (${#fields.hasErrors('phoneNumber')} ? 'field-error')"/>
+
+        <!-- por defecto a falso, solo lo podrá editar superadmin -->
+        <input type="hidden" id="input_is_admin" th:field="*{admin}"/>
+        <input type="hidden" id="input_is_superadmin" th:field="*{superadmin}"/>
+
+        <br/>
+
+        <input type="submit" value="Register" class="btn btn-primary"/>
+        <br/>
+
+        <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            <li th:each="err : ${#fields.detailedErrors('*')}" th:text="${err.message}"></li>
+        </ul>
+    </div>
+</form>
+<hr/>
+<div th:include="fragments/base.html::buttonBack"></div>
+</body>
+</html>

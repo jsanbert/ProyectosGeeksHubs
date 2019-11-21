@@ -9,30 +9,40 @@
     <link rel="stylesheet" href="/css/style.css"/>
 </head>
 
-<header th:fragment="header">
-    <h1>HEADER</h1>
-</header>
 
-<main th:fragment="main">
-    <h1>MAIN</h1>
-</main>
+<form th:fragment="user-box" class="user-box" method="GET">
+    <div class="user-box" th:if="${session.loggedUser == null}">
+        <button th:formaction="@{/users/login}" class="btn btn-secondary">Login</button>
+        <button th:formaction="@{/users/register}" class="btn btn-primary">Register</button>
+    </div>
+    <div class="user-box" th:if="${session.loggedUser != null}">
+        <p class="logged-as" th:text="'Logged as: ' + ${session.loggedUser.username}"></p>
+        <button th:formaction="@{/users/logout}" class="btn btn-secondary">Logout</button>
+    </div>
+</form>
 
-<footer th:fragment="footer">
-    <h1>FOOTER</h1>
-</footer>
-
-<div th:fragment="backToEventList">
-    <form th:action="@{/events/list}" method="GET">
-        <input type="submit" class="btn btn-primary" value="Return to event list"/>
-    </form>
+<div th:fragment="buttonBack">
+    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Go back</button>
 </div>
 
+<td th:fragment="userActions">
+    <a th:href="@{/events/details(eventId=${event.id})}">Details</a>
+    <a th:href="@{/users/signup-event(eventId=${event.id})}" class="text-success">Sign up</a>
+</td>
+
+<td th:fragment="adminActions">
+    <form class="form-event-actions" th:action="'#'" method="GET">
+        <a href="#" onclick="$(this).closest('form').submit();">Check user</a>
+        <input type="hidden" th:name="eventId" th:value="${event.id}"/>
+    </form>
+</td>
+
 <td th:fragment="superadminActions">
-    <form class="superadmin-actions" th:action="@{/events/edit}" method="GET">
+    <form class="event-actions" th:action="@{/events/check}" method="GET">
         <a href="#" onclick="$(this).closest('form').submit();">Edit</a>
         <input type="hidden" th:name="eventId" th:value="${event.id}"/>
     </form>
-    <form class="superadmin-actions" th:action="@{/events/delete}" method="POST">
+    <form class="event-actions" th:action="@{/events/delete}" method="POST">
         <a href="#" onclick="$(this).closest('form').submit();" class="text-danger">Remove</a>
         <input type="hidden" th:name="eventId" th:value="${event.id}"/>
     </form>

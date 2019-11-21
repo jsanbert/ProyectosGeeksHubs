@@ -1,14 +1,13 @@
 package com.geekshubs.proyecto.discoteca.model.dao.interfaces;
 
-import com.geekshubs.proyecto.discoteca.model.entities.Event;
-import org.springframework.stereotype.Repository;
+import com.geekshubs.proyecto.discoteca.model.entities.User;
 
 import java.util.List;
 
-public interface IEventDAO {
+public interface IUserDAO {
     // ============================= CREATE =============================
 
-    void insertEvent(Event e);
+    void insertUser(User e);
 
 
 
@@ -16,11 +15,11 @@ public interface IEventDAO {
 
     // ============================== READ ==============================
 
-    Event findEventById(Long id);
-    List<Event> findAll();
-    List<Event> findEventsWithName(String name);
-    Long getCapacityByEventId(Long id);
-
+    User findUserById(Long id);
+    List<User> findAll();
+    List<User> findUsersWithName(String name);
+    Boolean userExists(String username);
+    Boolean checkUserLogin(String username, String password);
 
 
 
@@ -28,7 +27,7 @@ public interface IEventDAO {
 
     // ============================== UPDATE ==============================
 
-    void updateEvent(Event updatedEvent);
+    void updateUser(User updatedUser);
 
 
 
@@ -37,6 +36,6 @@ public interface IEventDAO {
 
     // ============================== DELETE ==============================
 
-    void deleteEventById(Long id);
+    void deleteUserById(Long id);
 
 }

@@ -24,6 +24,6 @@
 <p th:if="${error}" th:text="${errorText}" th:class="text-danger"></p>
 <p th:unless="${error}" th:text="${successText}" th:class="text-success"></p>
 <hr/>
-<div th:include="fragments/base.html::backToEventList"></div>
+<div th:include="fragments/base.html::buttonBack"></div>
 </body>
 </html>

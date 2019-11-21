@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:include="fragments/base.html::head"></head>
+
+<!---------------------->
+
+<body>
+<h1 th:text="${title}"></h1>
+<hr/>
+
+<form th:action="@{/users/perform-login}" method="POST" th:object="${user}">
+    <div class="form form-group">
+        <label for="input_username">Username: </label>
+        <input type="text" id="input_username" th:field="*{username}" th:class="'form-control' + ' '+ (${#fields.hasErrors('*')} ? 'field-error')"/>
+
+        <br/>
+
+        <label for="input_password">Password: </label>
+        <input type="password" id="input_password" th:field="*{password}" th:class="'form-control' + ' '+ (${#fields.hasErrors('*')} ? 'field-error')"/>
+
+        <br/>
+        <input type="submit" value="Login" class="btn btn-primary"/>
+        <br/>
+
+        <ul th:if="${userOrPasswordIncorrect != null}" class="alert alert-danger">
+            <li th:text="${userOrPasswordIncorrect}"></li>
+        </ul>
+    </div>
+</form>
+<hr/>
+<div th:include="fragments/base.html::buttonBack"></div>
+</body>
+</html>

@@ -18,21 +18,9 @@ public class Register {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name="name")
-    @NotEmpty(message = "{name.notempty}")
-    private String name;
-
-    @Column(name="surname")
-    @NotEmpty(message = "{surname.notempty}")
-    private String surname;
-
-    @Column(name="age")
-    @NotNull(message = "{age.notnull}")
-    private int age;
-
-    @Column(name="phonenumber")
-    @NotEmpty(message = "{phonenumber.notnull}")
-    private String phoneNumber;
+    @Column(name="user_id")
+    @NotNull
+    private Long userId;
 
     @Column(name="event_id")
     @NotNull
@@ -49,36 +37,12 @@ public class Register {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getEventId() {
