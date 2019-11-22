@@ -4,8 +4,6 @@
 **/out/**
 **/*.iml
 
-# Spring
-**/application.properties
 
 # Maven
 HELP.md
@@ -23,6 +21,8 @@ HELP.md
 **/.springBeans
 **/.sts4-cache
 
+# Spring
+**/application.properties
 
 # CMake
 cmake-build-*/
