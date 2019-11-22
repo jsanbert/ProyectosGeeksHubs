@@ -8,18 +8,18 @@
 <!---------------------->
 
 <body>
-<h1 th:text="${title}"></h1>
+<div th:replace="fragments/base.html::top-section"></div>
 <hr/>
 
 <form th:action="@{/users/perform-login}" method="POST" th:object="${user}">
     <div class="form form-group">
         <label for="input_username">Username: </label>
-        <input type="text" id="input_username" th:field="*{username}" th:class="'form-control' + ' '+ (${#fields.hasErrors('*')} ? 'field-error')"/>
+        <input type="text" id="input_username" th:field="*{username}" th:class="'form-control' + ' '+ ((${#fields.hasErrors('*')} or ${userOrPasswordIncorrect} != null) ? 'field-error' : '')"/>
 
         <br/>
 
         <label for="input_password">Password: </label>
-        <input type="password" id="input_password" th:field="*{password}" th:class="'form-control' + ' '+ (${#fields.hasErrors('*')} ? 'field-error')"/>
+        <input type="password" id="input_password" th:field="*{password}" th:class="'form-control' + ' '+ ((${#fields.hasErrors('*')} or ${userOrPasswordIncorrect} != null) ? 'field-error' : '')"/>
 
         <br/>
         <input type="submit" value="Login" class="btn btn-primary"/>
@@ -32,5 +32,6 @@
 </form>
 <hr/>
 <div th:include="fragments/base.html::buttonBack"></div>
+<script th:replace="fragments/base.html::remove-field-error-class-on-focus"></script>
 </body>
 </html>

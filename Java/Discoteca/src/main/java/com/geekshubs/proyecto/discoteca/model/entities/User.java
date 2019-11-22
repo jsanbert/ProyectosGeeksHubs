@@ -17,6 +17,19 @@ public class User {
         // validation group marker interface
     }
 
+    public User(@NotEmpty(message = "{username.notempty}", groups = {RegisterValidation.class, LoginValidation.class}) String username, @NotEmpty(message = "{password.notempty}", groups = {RegisterValidation.class, LoginValidation.class}) String password, @NotEmpty(message = "{name.notempty}", groups = {RegisterValidation.class}) String name, @NotEmpty(message = "{surname.notempty}", groups = {RegisterValidation.class}) String surname, @NotNull(message = "{age.notnull}", groups = {RegisterValidation.class}) Integer age, @NotEmpty(message = "{phonenumber.notnull}", groups = {RegisterValidation.class}) String phoneNumber, Boolean isAdmin, Boolean isSuperadmin) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.isAdmin = isAdmin;
+        this.isSuperadmin = isSuperadmin;
+    }
+
+    public User() {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

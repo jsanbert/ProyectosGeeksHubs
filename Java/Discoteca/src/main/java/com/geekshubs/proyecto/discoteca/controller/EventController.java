@@ -31,9 +31,8 @@ public class EventController {
     public static final String TITLE_EVENT_EDIT = "Edit an event";
 
 
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy - HH:mm'h'");
-
-    private static HttpSession session;
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy - HH:mm'h'");
+    public static final SimpleDateFormat DETAILED_DATE_FORMAT = new SimpleDateFormat("EEEE, dd MMMM yyyy - HH:mm'h'");
 
     @Autowired
     private IEventDAO eventDAO;
@@ -132,6 +131,11 @@ public class EventController {
     @ModelAttribute("dateFormat")
     public SimpleDateFormat dateFormatter() {
         return DATE_FORMAT;
+    }
+
+    @ModelAttribute("detailedDateFormat")
+    public SimpleDateFormat detailedDateFormatter() {
+        return DETAILED_DATE_FORMAT;
     }
 
     public boolean checkSuperAdminLogged(WebRequest req) {

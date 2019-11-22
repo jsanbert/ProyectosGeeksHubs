@@ -65,6 +65,17 @@ public class RegisterDAOImpl implements IRegisterDAO {
 
     @Override
     @Transactional(readOnly = true)
+    public Boolean checkUserRegisteredToEvent(Long eventId, String username) {
+        List result = em.createQuery("SELECT r FROM Register r INNER JOIN User u ON r.userId = u.id WHERE u.username = :username AND r.eventId = :eventId")
+                .setParameter("username", username)
+                .setParameter("eventId", eventId)
+                .getResultList();
+
+        return !result.isEmpty();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Register> findAll() {
         return em.createQuery("SELECT r FROM Register r", Register.class)
                 .getResultList();

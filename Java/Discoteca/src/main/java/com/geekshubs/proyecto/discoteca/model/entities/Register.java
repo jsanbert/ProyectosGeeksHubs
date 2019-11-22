@@ -29,6 +29,14 @@ public class Register {
     @Column(name="token")
     private String token;
 
+    public Register(@NotNull Long userId, @NotNull Long eventId, String token) {
+        this.userId = userId;
+        this.eventId = eventId;
+        this.token = token;
+    }
+
+    public Register() {}
+
     public Long getId() {
         return id;
     }

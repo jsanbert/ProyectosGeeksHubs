@@ -8,7 +8,7 @@
 <!---------------------->
 
 <body>
-    <h1 th:text="${title}"></h1>
+    <div th:replace="fragments/base.html::top-section"></div>
     <hr/>
 
     <h3 th:if="${event == null}">Event requested does not exist</h3>
@@ -25,9 +25,17 @@
             </tr>
             <tr>
                 <th>Date and time</th>
-                <td th:text="${dateFormat.parse(event.date)}"></td>
+                <td th:text="${detailedDateFormat.format(event.date)}"></td>
             </tr>
-            <tr th:if="${session.superadminLogged != null && session.superadminLogged == true}">
+            <tr th:if="${session.loggedUser} != null">
+                <th>Actions</th>
+                <td th:include="fragments/base.html::userActions"></td>
+            </tr>
+            <tr th:if="${session.loggedUser} != null and ${session.loggedUser.admin}">
+                <th>Admin actions</th>
+                <td th:include="fragments/base.html::adminActions"></td>
+            </tr>
+            <tr th:if="${session.loggedUser} != null and ${session.loggedUser.superadmin}">
                 <th>Superadmin actions</th>
                 <td th:include="fragments/base.html::superadminActions"></td>
             </tr>

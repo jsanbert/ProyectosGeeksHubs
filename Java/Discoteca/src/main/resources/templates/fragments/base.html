@@ -10,6 +10,11 @@
 </head>
 
 
+<div th:fragment="top-section" class="top-section">
+    <h1 th:text="${title}"></h1>
+    <form th:replace="fragments/base.html::user-box"></form>
+</div>
+
 <form th:fragment="user-box" class="user-box" method="GET">
     <div class="user-box" th:if="${session.loggedUser == null}">
         <button th:formaction="@{/users/login}" class="btn btn-secondary">Login</button>
@@ -22,23 +27,24 @@
 </form>
 
 <div th:fragment="buttonBack">
-    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Go back</button>
+    <a th:href="@{/events/list}" class="btn btn-primary">Go back to event list</a>
 </div>
 
+
 <td th:fragment="userActions">
-    <a th:href="@{/events/details(eventId=${event.id})}">Details</a>
-    <a th:href="@{/users/signup-event(eventId=${event.id})}" class="text-success">Sign up</a>
+    <a th:if="${#httpServletRequest.requestURI.contains('details')} == false" th:href="@{/events/details(eventId=${event.id})}">Details</a>
+    <a th:if="${session.loggedUser} != null" th:href="@{/users/signup-event(eventId=${event.id})}" class="text-success">Sign up</a>
 </td>
 
 <td th:fragment="adminActions">
-    <form class="form-event-actions" th:action="'#'" method="GET">
+    <form class="event-actions" th:action="'#'" method="GET">
         <a href="#" onclick="$(this).closest('form').submit();">Check user</a>
         <input type="hidden" th:name="eventId" th:value="${event.id}"/>
     </form>
 </td>
 
 <td th:fragment="superadminActions">
-    <form class="event-actions" th:action="@{/events/check}" method="GET">
+    <form class="event-actions" th:action="@{/events/edit}" method="GET">
         <a href="#" onclick="$(this).closest('form').submit();">Edit</a>
         <input type="hidden" th:name="eventId" th:value="${event.id}"/>
     </form>
@@ -48,5 +54,12 @@
     </form>
 </td>
 
+<script th:fragment="remove-field-error-class-on-focus" type="text/javascript">
+    $('input').each(function() {
+        $(this).focus(function() {
+            $(this).removeClass('field-error');
+        });
+    });
+</script>
 
 </html>

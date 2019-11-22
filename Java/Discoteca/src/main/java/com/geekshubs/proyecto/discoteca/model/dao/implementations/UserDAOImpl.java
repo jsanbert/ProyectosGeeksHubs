@@ -65,12 +65,18 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public Boolean checkUserLogin(String username, String password) {
-        // no existe -> resultado.isEmpty() = true -> return false
-        return !(em.createQuery("SELECT u FROM User u WHERE TRIM(LOWER(username)) = TRIM(LOWER(:username)) AND u.password = :password")
+    public User getLoggedUser(String username, String password) {
+        User user;
+        List result = em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(:username) AND u.password = :password")
                 .setParameter("username", username)
                 .setParameter("password", password)
-                .getResultList().isEmpty());
+                .getResultList();
+        if(result.isEmpty())
+            user = null;
+        else
+            user = (User) result.get(0);
+
+        return user;
     }
 
 

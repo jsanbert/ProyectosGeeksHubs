@@ -19,7 +19,7 @@ public interface IUserDAO {
     List<User> findAll();
     List<User> findUsersWithName(String name);
     Boolean userExists(String username);
-    Boolean checkUserLogin(String username, String password);
+    User getLoggedUser(String username, String password);
 
 
 

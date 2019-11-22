@@ -8,10 +8,7 @@
 <!---------------------->
 
 <body>
-    <div class="top-section">
-        <h1 th:text="${title}"></h1>
-        <form th:replace="fragments/base.html::user-box"></form>
-    </div>
+    <div th:replace="fragments/base.html::top-section"></div>
     <hr/>
 
     <form th:action="@{/events/list}">
@@ -20,7 +17,12 @@
         <input type="submit" id="btn_filter" value="Filter"/>
         <button type="button" id="btn_reset" th:if="${isFiltered}">Reset</button>
     </form>
-    <table class="table">
+
+    <div th:if="${eventList.isEmpty()}">
+        <hr/>
+        <p>There are no upcoming events</p>
+    </div>
+    <table th:if="!${eventList.isEmpty()}" class="table">
         <thead>
             <tr>
                 <th>
@@ -32,33 +34,30 @@
                 <th>
                     Date and time
                 </th>
-                <th th:if="${session.loggedUser != null}">
+                <th>
                     Actions
                 </th>
-                <th th:if="${session.loggedUser != null} && ${session.loggedUser.admin}">
+                <th th:if="${session.loggedUser} != null and ${session.loggedUser.admin}">
                     Admin actions
                 </th>
-                <th th:if="${session.loggedUser != null} && ${session.loggedUser.superadmin}">
+                <th th:if="${session.loggedUser} != null and ${session.loggedUser.superadmin}">
                     Superadmin actions
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr th:if="${eventList.isEmpty()}">
-                <td colspan="4">There are no upcoming events</td>
-            </tr>
             <tr th:if="${eventList.size() > 0}" th:each="event, iterator : ${eventList}">
                 <!--${overviewLike.isEmpty()} ? '' : ${event.overview.replace(overviewLike, '<span class=&quot;text-danger&quot;>' + overviewLike + '</span>' )}-->
                 <td th:id="'event-' + ${iterator.index}" th:text="${event.overview}"></td>
                 <td th:text="${event.capacity}"></td>
                 <td th:text="${dateFormat.format(event.date)}"></td>
-                <td th:if="${session.loggedUser != null}"
+                <td
                     th:include="fragments/base.html::userActions">
                 </td>
-                <td th:if="${session.loggedUser != null} && ${session.loggedUser.admin}"
+                <td th:if="${session.loggedUser} != null and ${session.loggedUser.admin}"
                     th:include="fragments/base.html::adminActions">
                 </td>
-                <td th:if="${session.loggedUser != null} && ${session.loggedUser.superadmin}"
+                <td th:if="${session.loggedUser} != null and ${session.loggedUser.superadmin}"
                     th:include="fragments/base.html::superadminActions">
                 </td>
             </tr>
@@ -67,7 +66,7 @@
 
     <hr/>
 
-    <a th:if="${session.loggedUser != null}" th:href="@{/users/signdown-event}" class="text-danger">Sign down from an event</a>
+    <a th:if="!${eventList.isEmpty()} and ${session.loggedUser} != null" th:href="@{/users/signdown-event}" class="text-danger">Sign down from an event</a>
 
     <script th:if="${isFiltered}" type="text/javascript">
         var filterTextBox = $('#input_overview');

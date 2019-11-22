@@ -10,15 +10,11 @@ import com.geekshubs.proyecto.discoteca.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 @Controller
 @SessionAttributes("loggedUser")
@@ -27,11 +23,13 @@ public class UserController {
 
     public static final String TITLE_USER_LOGIN_FORM = "User login form";
     public static final String TITLE_USER_REGISTRATION_FORM = "User registration form";
-    public static final String TITLE_EVENT_SIGNUP_FORM = "Sign up form";
     public static final String TITLE_EVENT_SIGNDOWN_FORM = "Sign down from an event";
     public static final String TITLE_SHOWTOKEN_FORM = "This is your token, save it in order to sign down!";
     public static final String TEXT_ERROR_TOKEN = "Error: token input does not exist";
     public static final String TEXT_SUCCESS_EVENT_SIGNDOWN = "Success: you were signed down from the event";
+    public static final String TITLE_ERROR_USER_REGISTERED_EVENT = "You already registered for this event";
+    public static final String MESSAGE_ERROR_USER_REGISTERED_EVENT = "You cannot register again";
+
 
     public static final String TITLE_ERROR_FULL_CAPACITY = "Your entry could not be registered";
     public static final String MESSAGE_ERROR_FULL_CAPACITY = "We are sorry to inform you that the seating for this event is full";
@@ -49,35 +47,27 @@ public class UserController {
     private IUserDAO userDAO;
 
     @GetMapping("/signup-event")
-    public ModelAndView signUpForAnEvent(@RequestParam Long eventId) {
-        ModelAndView mav = new ModelAndView("registers/form_signup");
-        Event event = eventDAO.findEventById(eventId);
-        Register register = new Register();
-        register.setEventId(event.getId());
-        mav.addObject("title", TITLE_EVENT_SIGNUP_FORM);
-        mav.addObject("event", event);
-        mav.addObject("register", register);
-        return mav;
-    }
-
-    @PostMapping("/store-event-registration")
-    public ModelAndView storeEventRegistration(Register register, BindingResult result) {
+    public ModelAndView signUpForAnEvent(@RequestParam Long eventId, WebRequest req) {
         ModelAndView mav;
-        if(result.hasErrors()) {
-            mav = new ModelAndView("registers/form_signup");
-            mav.addObject("title", TITLE_EVENT_SIGNUP_FORM);
-        } else {
-            Long capacity = eventDAO.getCapacityByEventId(register.getEventId());
-            if(capacity > 0) {
+        Register register = new Register();
+        User user = (User) req.getAttribute("loggedUser", WebRequest.SCOPE_SESSION);
+        Long capacity = eventDAO.getCapacityByEventId(eventId);
+        if(capacity > 0) {
+            if(registerDAO.checkUserRegisteredToEvent(eventId, user.getUsername()))
+                mav = Util.errorPage(TITLE_ERROR_USER_REGISTERED_EVENT, MESSAGE_ERROR_USER_REGISTERED_EVENT);
+            else {
+                register.setUserId(user.getId());
+                register.setEventId(eventId);
                 register.setToken(Util.generateToken());
                 registerDAO.insertRegister(register);
                 mav = new ModelAndView("registers/show_token");
                 mav.addObject("token", register.getToken());
                 mav.addObject("title", TITLE_SHOWTOKEN_FORM);
             }
-            else
-                mav = Util.errorPage(TITLE_ERROR_FULL_CAPACITY, MESSAGE_ERROR_FULL_CAPACITY);
         }
+        else
+            mav = Util.errorPage(TITLE_ERROR_FULL_CAPACITY, MESSAGE_ERROR_FULL_CAPACITY);
+
         return mav;
     }
 
@@ -118,13 +108,14 @@ public class UserController {
         String username = user.getUsername();
         String password = user.getPassword();
 
-        if(result.hasErrors() || !userDAO.checkUserLogin(username, password)) {
+        User userLogged;
+
+        if(result.hasErrors() || (userLogged = userDAO.getLoggedUser(username, password)) == null) {
             mav = new ModelAndView("users/login");
             mav.addObject("title", TITLE_USER_LOGIN_FORM);
             mav.addObject("userOrPasswordIncorrect", MESSAGE_ERROR_USER_PASSWORD_INCORRECT);
-        }
-        else {
-            login(req, user);
+        } else {
+            login(req, userLogged);
             mav = new ModelAndView("redirect:/events/list");
         }
 
@@ -154,7 +145,7 @@ public class UserController {
     public ModelAndView storeUserRegistration(@Validated(User.RegisterValidation.class) User user, BindingResult result, WebRequest req) {
         ModelAndView mav = new ModelAndView("users/register");
         mav.addObject("title", TITLE_USER_REGISTRATION_FORM);
-        if(userDAO.userExists(user.getUsername())) {
+        if(!user.getUsername().isEmpty() && userDAO.userExists(user.getUsername())) {
             result.rejectValue("username", "error.username", MESSAGE_ERROR_USER_EXISTS);
         }
         if(!result.hasErrors()) {
@@ -167,6 +158,8 @@ public class UserController {
 
     public static void login(WebRequest req, User user) {
         req.setAttribute("loggedUser", user, WebRequest.SCOPE_SESSION);
+        System.out.println("isAdmin: " + user.getAdmin());
+        System.out.println("isSuperadmin: " + user.getSuperadmin());
     }
 
     public static void logout(WebRequest req, SessionStatus status) {
