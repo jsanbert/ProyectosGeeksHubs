@@ -1,4 +1,4 @@
-package com.geekshubs.proyecto.discoteca.model.entities;
+package com.geekshubs.proyecto.discoteca.application.model.entities;
 
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,7 +26,7 @@ public class Event {
 
     @Column(name="date")
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
     @NotNull(message = "{date.notnull}")
     private Date date;
 

@@ -1,12 +1,11 @@
-package com.geekshubs.proyecto.discoteca.controller;
+package com.geekshubs.proyecto.discoteca.application.controller;
 
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IEventDAO;
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IRegisterDAO;
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IUserDAO;
-import com.geekshubs.proyecto.discoteca.model.entities.Event;
-import com.geekshubs.proyecto.discoteca.model.entities.Register;
-import com.geekshubs.proyecto.discoteca.model.entities.User;
-import com.geekshubs.proyecto.discoteca.util.Util;
+import com.geekshubs.proyecto.discoteca.application.Util;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IEventDAO;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IRegisterDAO;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IUserDAO;
+import com.geekshubs.proyecto.discoteca.application.model.entities.Register;
+import com.geekshubs.proyecto.discoteca.application.model.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

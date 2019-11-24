@@ -1,4 +1,4 @@
-package com.geekshubs.proyecto.discoteca.controller;
+package com.geekshubs.proyecto.discoteca.application.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

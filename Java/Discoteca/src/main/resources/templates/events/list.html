@@ -29,7 +29,7 @@
                     Overview of the event
                 </th>
                 <th>
-                    Capacity
+                    Capacity (available seats)
                 </th>
                 <th>
                     Date and time
@@ -49,7 +49,7 @@
             <tr th:if="${eventList.size() > 0}" th:each="event, iterator : ${eventList}">
                 <!--${overviewLike.isEmpty()} ? '' : ${event.overview.replace(overviewLike, '<span class=&quot;text-danger&quot;>' + overviewLike + '</span>' )}-->
                 <td th:id="'event-' + ${iterator.index}" th:text="${event.overview}"></td>
-                <td th:text="${event.capacity}"></td>
+                <td th:class="(${event.capacity} == 0) ? 'text-danger' : ''" th:text="(${event.capacity} > 0) ? ${event.capacity} : 'FULL'"></td>
                 <td th:text="${dateFormat.format(event.date)}"></td>
                 <td
                     th:include="fragments/base.html::userActions">
@@ -85,7 +85,7 @@
             var searchMask = filterTextBox.val();
             var regEx = new RegExp(searchMask, "ig");
 
-            var eventOverviewHighlight = $(this).html().replace(regEx, function(str) { return '<span class="text-danger">' + str + '</span>' });
+            var eventOverviewHighlight = $(this).html().replace(regEx, function(str) { return '<span class="text-highlight-search">' + str + '</span>' });
             $(this).html(eventOverviewHighlight);
         });
 

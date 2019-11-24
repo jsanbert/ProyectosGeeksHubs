@@ -1,9 +1,9 @@
-package com.geekshubs.proyecto.discoteca.controller;
+package com.geekshubs.proyecto.discoteca.application.controller;
 
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IEventDAO;
-import com.geekshubs.proyecto.discoteca.model.entities.Event;
-import com.geekshubs.proyecto.discoteca.model.entities.User;
-import com.geekshubs.proyecto.discoteca.util.Util;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IEventDAO;
+import com.geekshubs.proyecto.discoteca.application.model.entities.Event;
+import com.geekshubs.proyecto.discoteca.application.model.entities.User;
+import com.geekshubs.proyecto.discoteca.application.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.List;

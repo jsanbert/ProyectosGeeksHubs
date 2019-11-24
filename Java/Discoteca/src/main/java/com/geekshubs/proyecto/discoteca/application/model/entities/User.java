@@ -1,4 +1,4 @@
-package com.geekshubs.proyecto.discoteca.model.entities;
+package com.geekshubs.proyecto.discoteca.application.model.entities;
 
 
 import javax.persistence.*;

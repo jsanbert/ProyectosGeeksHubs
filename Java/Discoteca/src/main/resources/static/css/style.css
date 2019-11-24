@@ -40,3 +40,8 @@ a {
     border: brown;
     border-style: solid;
 }
+
+.text-highlight-search {
+    color: #3b30ff;
+    font-weight: bold;
+}

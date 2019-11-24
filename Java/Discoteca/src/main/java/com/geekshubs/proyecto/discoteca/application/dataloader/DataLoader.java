@@ -1,10 +1,10 @@
-package com.geekshubs.proyecto.discoteca.dataloader;
+package com.geekshubs.proyecto.discoteca.application.dataloader;
 
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IEventDAO;
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IRegisterDAO;
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IUserDAO;
-import com.geekshubs.proyecto.discoteca.model.entities.Event;
-import com.geekshubs.proyecto.discoteca.model.entities.User;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IEventDAO;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IRegisterDAO;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IUserDAO;
+import com.geekshubs.proyecto.discoteca.application.model.entities.Event;
+import com.geekshubs.proyecto.discoteca.application.model.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

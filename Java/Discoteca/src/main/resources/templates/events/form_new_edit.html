@@ -29,7 +29,7 @@
         <br/>
 
         <label for="input_datetime">Date and time: </label>
-        <input placeholder="yyyy-MM-dd HH:mm" type="text" id="input_datetime" class="form-control" th:field="*{date}" th:class="'form-control' + ' '+ (${#fields.hasErrors('date')} ? 'field-error')"/>
+        <input placeholder="dd-MM-yyyy HH:mm" type="text" id="input_datetime" class="form-control" th:field="*{date}" th:class="'form-control' + ' '+ (${#fields.hasErrors('date')} ? 'field-error')"/>
 
         <input type="hidden" id="input_id" th:field="*{id}"/>
 

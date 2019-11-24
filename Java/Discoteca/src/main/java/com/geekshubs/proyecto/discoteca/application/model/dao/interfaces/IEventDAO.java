@@ -1,8 +1,8 @@
-package com.geekshubs.proyecto.discoteca.model.dao.interfaces;
+package com.geekshubs.proyecto.discoteca.application.model.dao.interfaces;
 
-import com.geekshubs.proyecto.discoteca.model.entities.Event;
-import org.springframework.stereotype.Repository;
+import com.geekshubs.proyecto.discoteca.application.model.entities.Event;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IEventDAO {
@@ -19,6 +19,7 @@ public interface IEventDAO {
     Event findEventById(Long id);
     List<Event> findAll();
     List<Event> findEventsWithName(String name);
+    List<Event> findEventsStartingFrom(Date date);
     Long getCapacityByEventId(Long id);
 
 

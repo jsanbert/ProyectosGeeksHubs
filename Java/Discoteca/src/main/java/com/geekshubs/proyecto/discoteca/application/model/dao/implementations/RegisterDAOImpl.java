@@ -1,9 +1,9 @@
-package com.geekshubs.proyecto.discoteca.model.dao.implementations;
+package com.geekshubs.proyecto.discoteca.application.model.dao.implementations;
 
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IEventDAO;
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IRegisterDAO;
-import com.geekshubs.proyecto.discoteca.model.entities.Event;
-import com.geekshubs.proyecto.discoteca.model.entities.Register;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IEventDAO;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IRegisterDAO;
+import com.geekshubs.proyecto.discoteca.application.model.entities.Event;
+import com.geekshubs.proyecto.discoteca.application.model.entities.Register;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;

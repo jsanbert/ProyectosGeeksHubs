@@ -1,14 +1,8 @@
-package com.geekshubs.proyecto.discoteca.model.entities;
+package com.geekshubs.proyecto.discoteca.application.model.entities;
 
-
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @Table(name="registers")

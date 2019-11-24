@@ -1,4 +1,4 @@
-package com.geekshubs.proyecto.discoteca.util;
+package com.geekshubs.proyecto.discoteca.application;
 
 import org.springframework.web.servlet.ModelAndView;
 

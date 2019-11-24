@@ -1,9 +1,8 @@
-package com.geekshubs.proyecto.discoteca.model.dao.implementations;
+package com.geekshubs.proyecto.discoteca.application.model.dao.implementations;
 
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IEventDAO;
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IRegisterDAO;
-import com.geekshubs.proyecto.discoteca.model.entities.Event;
-import com.geekshubs.proyecto.discoteca.model.entities.Register;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IEventDAO;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IRegisterDAO;
+import com.geekshubs.proyecto.discoteca.application.model.entities.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -59,6 +59,16 @@ public class EventDAOImpl implements IEventDAO {
                 .getResultList();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Event> findEventsStartingFrom(Date date) {
+        return em.createQuery("SELECT e FROM Event e WHERE e.date > :date", Event.class)
+                .setParameter("date", date)
+                .getResultList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Long getCapacityByEventId(Long id) {
         return this.findEventById(id).getCapacity();
     }

@@ -1,6 +1,6 @@
-package com.geekshubs.proyecto.discoteca.model.dao.interfaces;
+package com.geekshubs.proyecto.discoteca.application.model.dao.interfaces;
 
-import com.geekshubs.proyecto.discoteca.model.entities.User;
+import com.geekshubs.proyecto.discoteca.application.model.entities.User;
 
 import java.util.List;
 

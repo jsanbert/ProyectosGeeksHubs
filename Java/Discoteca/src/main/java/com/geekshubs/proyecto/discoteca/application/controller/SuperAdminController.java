@@ -1,6 +1,6 @@
-package com.geekshubs.proyecto.discoteca.controller;
+package com.geekshubs.proyecto.discoteca.application.controller;
 
-import com.geekshubs.proyecto.discoteca.model.dao.interfaces.IEventDAO;
+import com.geekshubs.proyecto.discoteca.application.model.dao.interfaces.IEventDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
