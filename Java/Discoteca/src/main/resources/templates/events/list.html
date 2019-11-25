@@ -48,7 +48,7 @@
         <tbody>
             <tr th:if="${eventList.size() > 0}" th:each="event, iterator : ${eventList}">
                 <!--${overviewLike.isEmpty()} ? '' : ${event.overview.replace(overviewLike, '<span class=&quot;text-danger&quot;>' + overviewLike + '</span>' )}-->
-                <td th:id="'event-' + ${iterator.index}" th:text="${event.overview}"></td>
+                <td th:id="'item-' + ${iterator.index}" th:text="${event.overview}"></td>
                 <td th:class="(${event.capacity} == 0) ? 'text-danger' : ''" th:text="(${event.capacity} > 0) ? ${event.capacity} : 'FULL'"></td>
                 <td th:text="${dateFormat.format(event.date)}"></td>
                 <td
@@ -68,27 +68,12 @@
 
     <a th:if="!${eventList.isEmpty()} and ${session.loggedUser} != null" th:href="@{/users/signdown-event}" class="text-danger">Sign down from an event</a>
 
-    <script th:if="${isFiltered}" type="text/javascript">
-        var filterTextBox = $('#input_overview');
-        var filterBtn = $('#btn_filter');
-        var resetBtn = $('#btn_reset');
-        resetBtn.click(function() {
-            filterTextBox.val("");
-            filterBtn.click();
-        });
+    <div th:if="${isFiltered}">
+        <script th:include="fragments/base.html::highlight-search"></script>
+        <script>
+            highlightSearch('overview');
+        </script>
+    </div>
 
-        var events = $('*[id^="event-"]');
-
-
-        // Colorear en rojo la búsqueda
-        events.each(function(index) {
-            var searchMask = filterTextBox.val();
-            var regEx = new RegExp(searchMask, "ig");
-
-            var eventOverviewHighlight = $(this).html().replace(regEx, function(str) { return '<span class="text-highlight-search">' + str + '</span>' });
-            $(this).html(eventOverviewHighlight);
-        });
-
-    </script>
 </body>
 </html>

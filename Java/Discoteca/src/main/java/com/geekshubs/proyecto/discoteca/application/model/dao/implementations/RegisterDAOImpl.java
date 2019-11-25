@@ -89,10 +89,22 @@ public class RegisterDAOImpl implements IRegisterDAO {
                 .getResultList();
     }
 
+    @Override
+    @Transactional
+    public Register findRegisterByUserAndEventId(Long userId, Long eventId) {
+        return (Register) em.createQuery("SELECT r FROM Register r WHERE r.eventId = :eventId AND r.userId = :userId")
+                .setParameter("eventId", eventId)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
 
 
     // ============================== UPDATE ============================
-
+    @Override
+    @Transactional
+    public void updateRegister(Register updatedRegister) {
+        em.merge(updatedRegister);
+    }
 
 
 

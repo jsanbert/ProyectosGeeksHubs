@@ -23,6 +23,9 @@ public class Register {
     @Column(name="token")
     private String token;
 
+    @Column(name="confirmed_assistance")
+    private Boolean confirmedAssistance;
+
     public Register(@NotNull Long userId, @NotNull Long eventId, String token) {
         this.userId = userId;
         this.eventId = eventId;
@@ -61,5 +64,13 @@ public class Register {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Boolean getConfirmedAssistance() {
+        return confirmedAssistance;
+    }
+
+    public void setConfirmedAssistance(Boolean confirmedAssistance) {
+        this.confirmedAssistance = confirmedAssistance;
     }
 }

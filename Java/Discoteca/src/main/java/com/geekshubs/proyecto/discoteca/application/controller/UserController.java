@@ -24,8 +24,11 @@ public class UserController {
     public static final String TITLE_USER_REGISTRATION_FORM = "User registration form";
     public static final String TITLE_EVENT_SIGNDOWN_FORM = "Sign down from an event";
     public static final String TITLE_SHOWTOKEN_FORM = "This is your token, save it in order to sign down!";
+    public static final String TITLE_CONFIRM_USER_ASSISTANCE = "Confirm user assistance";
     public static final String TEXT_ERROR_TOKEN = "Error: token input does not exist";
+    public static final String TEXT_ERROR_TOKEN_CONFIRM = "Error: no register has been found for the selected event with this token";
     public static final String TEXT_SUCCESS_EVENT_SIGNDOWN = "Success: you were signed down from the event";
+    public static final String TEXT_SUCCESS_CONFIRMED_ASSISTANCE_FOR_USER = "Success: confirmed assistance for user";
     public static final String TITLE_ERROR_USER_REGISTERED_EVENT = "You already registered for this event";
     public static final String MESSAGE_ERROR_USER_REGISTERED_EVENT = "You cannot register again";
 
@@ -72,14 +75,15 @@ public class UserController {
 
     @GetMapping("/signdown-event")
     public ModelAndView signDownFromAnEvent() {
-        ModelAndView mav = new ModelAndView("registers/form_signdown");
+        ModelAndView mav = new ModelAndView("registers/form_signdown_check");
+        mav.addObject("action", "/users/perform-signdown");
         mav.addObject("title", TITLE_EVENT_SIGNDOWN_FORM);
         return mav;
     }
 
-    @PostMapping("/perform-signdown")
-    public ModelAndView performSignDown(@RequestParam String token) {
-        ModelAndView mav = new ModelAndView("registers/form_signdown");
+    @RequestMapping(value = "/perform-signdown", method = { RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView performSignDown(@RequestParam String token, @RequestParam(required = false) Long eventId) {
+        ModelAndView mav = new ModelAndView("registers/form_signdown_check");
         Register register = registerDAO.findRegisterByToken(token);
         mav.addObject("error", false);
         mav.addObject("title", TITLE_EVENT_SIGNDOWN_FORM);
@@ -88,7 +92,37 @@ public class UserController {
             mav.addObject("errorText", TEXT_ERROR_TOKEN);
         } else {
             registerDAO.deleteRegisterById(register.getId());
-            mav.addObject("successText", TEXT_SUCCESS_EVENT_SIGNDOWN);
+            if(eventId != null)
+                mav = new ModelAndView("redirect:/events/list-registered-users?eventId=" + eventId);
+            else
+                mav.addObject("successText", TEXT_SUCCESS_EVENT_SIGNDOWN);
+        }
+        return mav;
+    }
+
+    @GetMapping("/confirm-assistance")
+    public ModelAndView confirmAssistance(@RequestParam Long eventId) {
+        ModelAndView mav = new ModelAndView("registers/form_signdown_check");
+        mav.addObject("action", "/users/perform-confirm-assistance");
+        mav.addObject("title", TITLE_CONFIRM_USER_ASSISTANCE);
+        mav.addObject("eventId", eventId);
+        return mav;
+    }
+
+    @PostMapping("/perform-confirm-assistance")
+    public ModelAndView performConfirmAssistance(@RequestParam Long eventId, @RequestParam String token) {
+        ModelAndView mav = new ModelAndView("registers/form_signdown_check");
+        Register register = registerDAO.findRegisterByToken(token);
+        mav.addObject("error", false);
+        mav.addObject("title", TITLE_CONFIRM_USER_ASSISTANCE);
+        mav.addObject("eventId", eventId);
+        if(register == null || register.getEventId() != eventId) {
+            mav.addObject("error", true);
+            mav.addObject("errorText", TEXT_ERROR_TOKEN_CONFIRM);
+        } else {
+            register.setConfirmedAssistance(true);
+            registerDAO.updateRegister(register);
+            mav.addObject("successText", TEXT_SUCCESS_CONFIRMED_ASSISTANCE_FOR_USER + " '" + userDAO.findUserById(register.getUserId()).getName() + "'");
         }
         return mav;
     }

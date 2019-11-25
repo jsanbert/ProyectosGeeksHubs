@@ -20,6 +20,7 @@ public interface IRegisterDAO {
     Boolean checkUserRegisteredToEvent(Long eventId, String username);
     List<Register> findAll();
     List<Register> findRegistersToAnEvent(Long eventId);
+    Register findRegisterByUserAndEventId(Long userId, Long eventId);
 
 
 
@@ -27,7 +28,7 @@ public interface IRegisterDAO {
 
 
     // ============================== UPDATE ==============================
-
+    void updateRegister(Register updatedRegister);
 
 
 

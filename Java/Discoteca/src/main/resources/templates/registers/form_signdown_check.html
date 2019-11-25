@@ -11,10 +11,11 @@
 <h1 th:text="${title}"></h1>
 <hr/>
 
-<form th:action="@{/users/perform-signdown}" method="POST">
+<form th:action="${action}" method="POST">
     <div class="form form-group">
         <label for="input_token">Input your token: </label>
         <input type="text" id="input_token" name="token"/>
+        <input th:if="${eventId} != null" th:value="${eventId}" type="hidden" name="eventId"/>
 
         <input type="submit" value="Send" class="btn btn-primary"/>
         <br/>

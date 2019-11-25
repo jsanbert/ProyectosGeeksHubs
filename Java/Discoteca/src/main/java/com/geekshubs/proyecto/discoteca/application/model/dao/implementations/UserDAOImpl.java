@@ -74,6 +74,12 @@ public class UserDAOImpl implements IUserDAO {
         return user;
     }
 
+    public List<User> findUsersRegisteredToAnEvent(Long eventId) {
+        return em.createQuery("SELECT u FROM Register r, User u, Event e WHERE e.id = :eventId AND r.eventId = e.id AND r.userId = u.id")
+                .setParameter("eventId", eventId)
+                .getResultList();
+    }
+
 
 
     // ============================== UPDATE ============================

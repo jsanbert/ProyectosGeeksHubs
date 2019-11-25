@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Inserto cabecera -->
+
+<head th:include="fragments/base.html::head"></head>
+
+<!---------------------->
+
+<body>
+    <div th:replace="fragments/base.html::top-section"></div>
+    <hr/>
+
+    <form th:action="@{/events/list-registered-users}">
+        <label for="input_username">Filter by username: </label>
+        <input type="text" id="input_username" name="usernameLike" th:value="${usernameLike}"/>
+        <input type="submit" id="btn_filter" value="Filter"/>
+        <button type="button" id="btn_reset" th:if="${isFiltered}">Reset</button>
+        <input type="hidden" name="eventId" th:value="${eventId}"/>
+    </form>
+
+    <div th:if="${userList.isEmpty()}">
+        <hr/>
+        <p>There are no users registered to this event yet</p>
+    </div>
+    <table th:if="!${userList.isEmpty()}" class="table">
+        <thead>
+            <tr>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Surname
+                </th>
+                <th>
+                    Phone number
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${userList.size() > 0}" th:each="user, iterator : ${userList}">
+                <td th:id="'item-' + ${iterator.index}" th:text="${user.username}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.surname}"></td>
+                <td th:text="${user.phoneNumber}"></td>
+                <td>
+                    <form th:action="@{/events/remove-user-from-event(userId = ${user.id}, eventId = ${eventId})}" method="POST">
+                        <a class="text-danger" onclick="$(this).closest('form').submit();">Sign down</a>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr/>
+    <div th:include="fragments/base.html::buttonBack"></div>
+
+    <div th:if="${isFiltered}">
+        <script th:include="fragments/base.html::highlight-search"></script>
+        <script>
+            highlightSearch('username');
+        </script>
+    </div>
+</body>
+</html>

@@ -20,6 +20,7 @@ public interface IUserDAO {
     List<User> findUsersWithName(String name);
     Boolean userExists(String username);
     User getLoggedUser(String username, String password);
+    List<User> findUsersRegisteredToAnEvent(Long eventId);
 
 
 
