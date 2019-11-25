@@ -1,32 +1,26 @@
 package com.geekshubs.minifactura.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "facturas")
 public class Factura {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descripcion;
     private String observacion;
-
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Column(name = "createdat")
     private Date fechacreacion;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private Cliente cliente;
-
-    public Factura() { }
 
     public Long getId() {
         return id;
